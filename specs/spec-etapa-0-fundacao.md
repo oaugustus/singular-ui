@@ -274,7 +274,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: implementados `src/core/overlay/focus-trap.directive.js` (`suFocusTrap`, isolate `active`, `createFocusTrap` de `focus-trap` via `$window.focusTrap`, activate/deactivate + cleanup no `$destroy`) e `focus-trap.directive.spec.js` (3 casos via `$compile`); Karma carrega UMDs `tabbable` + `focus-trap`; `npm test` → 21 of 21 SUCCESS; `npm run lint` exit 0.
 - [x] Diretiva su-hotkey (wrapper Mousetrap)
   - Evidência: implementados `hotkey.directive.js` (`suHotkey`, isolate `key`/`onTrigger`, `Mousetrap(element[0])` + unbind no `$destroy`) e `hotkey.directive.spec.js` (3 casos); Karma carrega `mousetrap.js`; `npm test` → 24 of 24 SUCCESS; `npm run lint` exit 0.
-- [ ] Script generate-tailwind-safelist.js
+- [x] Script generate-tailwind-safelist.js
+  - Evidência: implementado `scripts/generate-tailwind-safelist.js` (varre `src/**/*.theme.js`, extrai classes de slots/variants/compoundVariants.class, escreve `tailwind.safelist.json`); script npm `generate:safelist`; sem themes → `[]` (0 classes); fixture temporário → 10 classes esperadas; fixture removido e regenerado `[]`; `npm run lint` exit 0.
 - [ ] App de demo vazio com hot-reload
 - [ ] THIRD-PARTY-LICENSES.md inicial
 - [ ] [Critério de aceite] suBadge end-to-end com teste unitário passando

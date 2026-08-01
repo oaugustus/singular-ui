@@ -7,7 +7,8 @@
   "scripts": {
     "lint": "eslint .",
     "bundle:tv-shim": "esbuild node_modules/tailwind-variants/dist/index.js --bundle --format=iife --global-name=TailwindVariants --outfile=test/shims/tailwind-variants.iife.js",
-    "test": "npm run bundle:tv-shim && karma start test/karma.conf.js --single-run"
+    "test": "npm run bundle:tv-shim && karma start test/karma.conf.js --single-run",
+    "generate:safelist": "node scripts/generate-tailwind-safelist.js"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.8.0",
