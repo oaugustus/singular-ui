@@ -266,7 +266,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Nota: sobreposta com o item anterior — a spec §5.8 já define `core.module.js` com `['ngAria', 'ngAnimate']` em uma única entrega. Só executar depois dos dois itens acima; ao concluí-los, marcar este como satisfeito por decorrência, sem código adicional.
   - Evidência: satisfeito por decorrência — `src/core/core.module.js` declara `angular.module('singularUi.core', ['ngAria', 'ngAnimate'])` (§5.8); sem código adicional.
 
-- [ ] Implementar serviço suOverlayStack
+- [x] Implementar serviço suOverlayStack
+  - Evidência: implementados `src/core/overlay/overlay-stack.service.js` (factory `suOverlayStack` com `push`/`pop`/`top`/`size`, z-index base 1000) e `overlay-stack.service.spec.js` (4 casos); `npm test` → 15 of 15 SUCCESS; `npm run lint` exit 0.
 - [ ] Diretiva su-floating-position (wrapper Floating UI)
 - [ ] Diretiva su-focus-trap (wrapper focus-trap)
 - [ ] Diretiva su-hotkey (wrapper Mousetrap)
