@@ -8,6 +8,7 @@ module.exports = {
   },
   globals: {
     angular: 'readonly',
+    FloatingUIDOM: 'readonly',
   },
   extends: ['eslint:recommended', 'plugin:angular/johnpapa'],
   rules: {
@@ -29,8 +30,10 @@ module.exports = {
         normalizeClasses: 'readonly',
       },
       rules: {
-        // Specs exercitam a API global sem Angular/$window
+        // Specs exercitam a API global / DOM sem $window/$document/$timeout
         'angular/window-service': 'off',
+        'angular/document-service': 'off',
+        'angular/timeout-service': 'off',
       },
     },
     {

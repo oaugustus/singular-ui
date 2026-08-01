@@ -268,7 +268,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
 
 - [x] Implementar serviço suOverlayStack
   - Evidência: implementados `src/core/overlay/overlay-stack.service.js` (factory `suOverlayStack` com `push`/`pop`/`top`/`size`, z-index base 1000) e `overlay-stack.service.spec.js` (4 casos); `npm test` → 15 of 15 SUCCESS; `npm run lint` exit 0.
-- [ ] Diretiva su-floating-position (wrapper Floating UI)
+- [x] Diretiva su-floating-position (wrapper Floating UI)
+  - Evidência: implementados `src/core/overlay/floating-position.directive.js` (`suFloatingPosition`, isolate `reference`/`placement`/`offset`, `computePosition`+`autoUpdate`+`offset` de `@floating-ui/dom`) e `floating-position.directive.spec.js` (3 casos via `$compile`); Karma carrega UMDs `@floating-ui/core`+`@floating-ui/dom`; `npm test` → 18 of 18 SUCCESS; `npm run lint` exit 0.
 - [ ] Diretiva su-focus-trap (wrapper focus-trap)
 - [ ] Diretiva su-hotkey (wrapper Mousetrap)
 - [ ] Script generate-tailwind-safelist.js

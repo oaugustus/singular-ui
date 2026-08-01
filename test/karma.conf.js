@@ -5,6 +5,8 @@ module.exports = function (config) {
     basePath: '..',
     frameworks: ['jasmine'],
     files: [
+      'node_modules/@floating-ui/core/dist/floating-ui.core.umd.js',
+      'node_modules/@floating-ui/dom/dist/floating-ui.dom.umd.js',
       'test/shims/cjs-exports-prelude.js',
       'node_modules/tailwind-merge/dist/bundle-cjs.js',
       'test/shims/tw-merge-export.js',
