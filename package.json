@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "lint": "eslint .",
-    "test": "karma start test/karma.conf.js --single-run"
+    "bundle:tv-shim": "esbuild node_modules/tailwind-variants/dist/index.js --bundle --format=iife --global-name=TailwindVariants --outfile=test/shims/tailwind-variants.iife.js",
+    "test": "npm run bundle:tv-shim && karma start test/karma.conf.js --single-run"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.8.0",
@@ -17,11 +18,13 @@
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
+    "esbuild": "^0.28.1",
     "eslint": "^8.57.1",
     "eslint-plugin-angular": "^4.1.0",
     "jasmine-core": "^6.3.0",
     "karma": "^6.4.4",
     "karma-chrome-launcher": "^3.2.0",
-    "karma-jasmine": "^5.1.0"
+    "karma-jasmine": "^5.1.0",
+    "tailwind-variants": "^3.3.0"
   }
 }

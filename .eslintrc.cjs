@@ -23,6 +23,10 @@ module.exports = {
       globals: {
         suTv: 'readonly',
         twMerge: 'readonly',
+        tv: 'readonly',
+        suTvFixtureTheme: 'readonly',
+        suTvFixtureCases: 'readonly',
+        normalizeClasses: 'readonly',
       },
       rules: {
         // Specs exercitam a API global sem Angular/$window
@@ -43,6 +47,12 @@ module.exports = {
         'no-redeclare': 'off',
         'no-unused-vars': 'off',
         'no-var': 'off',
+      },
+    },
+    {
+      files: ['test/fixtures/**/*.js'],
+      rules: {
+        'angular/window-service': 'off',
       },
     },
     {

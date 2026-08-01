@@ -1,0 +1,36 @@
+'use strict';
+
+describe('fixture suTv vs tailwind-variants', function () {
+  function materializeSlots(result) {
+    var out = {};
+    var key;
+
+    for (key in result) {
+      if (!Object.prototype.hasOwnProperty.call(result, key)) {
+        continue;
+      }
+      out[key] = typeof result[key] === 'function' ? result[key]() : result[key];
+    }
+
+    return out;
+  }
+
+  suTvFixtureCases.forEach(function (fixtureCase) {
+    it('bate com tv para: ' + fixtureCase.name, function () {
+      var theme = suTvFixtureTheme;
+      var suClasses = suTv(theme)(fixtureCase.props);
+      var tvClasses = materializeSlots(tv(theme)(fixtureCase.props));
+      var slotName;
+
+      for (slotName in theme.slots) {
+        if (!Object.prototype.hasOwnProperty.call(theme.slots, slotName)) {
+          continue;
+        }
+
+        expect(normalizeClasses(suClasses[slotName])).toBe(
+          normalizeClasses(tvClasses[slotName])
+        );
+      }
+    });
+  });
+});
