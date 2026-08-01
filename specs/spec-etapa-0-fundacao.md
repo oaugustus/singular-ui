@@ -254,7 +254,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: ESLint 8.57.1 + eslint-plugin-angular@4.1.0 (caminho legado `.eslintrc.cjs` + `plugin:angular/johnpapa`); criados `.eslintrc.cjs`, `.eslintignore`, script `npm run lint`; `npm run lint` / `eslint .` exit 0; escolha documentada no README.
 - [x] Configurar Karma + Jasmine
   - Evidência: instalados `karma@6.4.4`, `karma-jasmine@5.1.0`, `jasmine-core@6.3.0`, `karma-chrome-launcher@3.2.0`; criados `test/karma.conf.js` (ChromeHeadless) + `test/smoke.spec.js`; script `npm test`; `npm test` → 1 of 1 SUCCESS; `npm run lint` exit 0.
-- [ ] Implementar suTv (motor de tema)
+- [x] Implementar suTv (motor de tema)
+  - Evidência: implementados `src/core/tv/tv.service.js` (algoritmo + `window.suTv` + factory Angular condicional) e `tv.service.spec.js` (4 casos: defaults, override, compound on/off); shims Karma para `tailwind-merge`; `npm test` → 5 of 5 SUCCESS; `npm run lint` exit 0.
 - [ ] Testes de fixture: suTv vs tailwind-variants
 - [ ] Incluir ngAria e ngAnimate no módulo singularUi.core
 - [ ] Implementar serviço suOverlayStack

@@ -5,6 +5,9 @@ module.exports = function (config) {
     basePath: '..',
     frameworks: ['jasmine'],
     files: [
+      'test/shims/cjs-exports-prelude.js',
+      'node_modules/tailwind-merge/dist/bundle-cjs.js',
+      'test/shims/tw-merge-export.js',
       'src/**/*.js',
       'test/**/*.spec.js',
     ],
