@@ -9,6 +9,8 @@ module.exports = function (config) {
       'node_modules/@floating-ui/dom/dist/floating-ui.dom.umd.js',
       'node_modules/tabbable/dist/index.umd.js',
       'node_modules/focus-trap/dist/focus-trap.umd.js',
+      'node_modules/mousetrap/mousetrap.js',
+
       'test/shims/cjs-exports-prelude.js',
       'node_modules/tailwind-merge/dist/bundle-cjs.js',
       'test/shims/tw-merge-export.js',

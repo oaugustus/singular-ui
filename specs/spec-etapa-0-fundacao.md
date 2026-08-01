@@ -272,7 +272,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: implementados `src/core/overlay/floating-position.directive.js` (`suFloatingPosition`, isolate `reference`/`placement`/`offset`, `computePosition`+`autoUpdate`+`offset` de `@floating-ui/dom`) e `floating-position.directive.spec.js` (3 casos via `$compile`); Karma carrega UMDs `@floating-ui/core`+`@floating-ui/dom`; `npm test` → 18 of 18 SUCCESS; `npm run lint` exit 0.
 - [x] Diretiva su-focus-trap (wrapper focus-trap)
   - Evidência: implementados `src/core/overlay/focus-trap.directive.js` (`suFocusTrap`, isolate `active`, `createFocusTrap` de `focus-trap` via `$window.focusTrap`, activate/deactivate + cleanup no `$destroy`) e `focus-trap.directive.spec.js` (3 casos via `$compile`); Karma carrega UMDs `tabbable` + `focus-trap`; `npm test` → 21 of 21 SUCCESS; `npm run lint` exit 0.
-- [ ] Diretiva su-hotkey (wrapper Mousetrap)
+- [x] Diretiva su-hotkey (wrapper Mousetrap)
+  - Evidência: implementados `hotkey.directive.js` (`suHotkey`, isolate `key`/`onTrigger`, `Mousetrap(element[0])` + unbind no `$destroy`) e `hotkey.directive.spec.js` (3 casos); Karma carrega `mousetrap.js`; `npm test` → 24 of 24 SUCCESS; `npm run lint` exit 0.
 - [ ] Script generate-tailwind-safelist.js
 - [ ] App de demo vazio com hot-reload
 - [ ] THIRD-PARTY-LICENSES.md inicial
