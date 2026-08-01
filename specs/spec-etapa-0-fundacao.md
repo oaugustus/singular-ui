@@ -258,7 +258,11 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: implementados `src/core/tv/tv.service.js` (algoritmo + `window.suTv` + factory Angular condicional) e `tv.service.spec.js` (4 casos: defaults, override, compound on/off); shims Karma para `tailwind-merge`; `npm test` → 5 of 5 SUCCESS; `npm run lint` exit 0.
 - [x] Testes de fixture: suTv vs tailwind-variants
   - Evidência: criados `test/fixtures/{theme.fixture,class-normalize,su-tv-vs-tv.spec}.js`, shims Karma para `tailwind-variants` (esbuild IIFE + `tv-export.js`); `npm test` → 11 of 11 SUCCESS (6 casos de paridade suTv vs `tv`); `npm run lint` exit 0.
+- [x] Instalar e fixar AngularJS 1.8.3 + angular-aria + angular-animate (deps core do projeto) e atualizar karma.conf.js para carregá-las antes de src/
+  - Evidência: `npm install angular@1.8.3 angular-aria@1.8.3 angular-animate@1.8.3 --save-exact` → deps em `package.json` sem `^`/`~`; `node_modules/{angular,angular-aria,angular-animate}/package.json` = `1.8.3`; `test/karma.conf.js` carrega `angular.js` → `angular-aria.js` → `angular-animate.js` antes de `src/**/*.js`; `npm test` → 11 of 11 SUCCESS; `npm run lint` exit 0.
+- [ ] Criar core.module.js e singular-ui.module.js (módulo raiz agregando singularUi.core e singularUi.components) — conteúdo exato de §5.8/§5.9, já com `['ngAria', 'ngAnimate']`
 - [ ] Incluir ngAria e ngAnimate no módulo singularUi.core
+  - Nota: sobreposta com o item anterior — a spec §5.8 já define `core.module.js` com `['ngAria', 'ngAnimate']` em uma única entrega. Só executar depois dos dois itens acima; ao concluí-los, marcar este como satisfeito por decorrência, sem código adicional.
 - [ ] Implementar serviço suOverlayStack
 - [ ] Diretiva su-floating-position (wrapper Floating UI)
 - [ ] Diretiva su-focus-trap (wrapper focus-trap)
@@ -268,13 +272,11 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
 - [ ] THIRD-PARTY-LICENSES.md inicial
 - [ ] [Critério de aceite] suBadge end-to-end com teste unitário passando
 - [ ] [Critério de aceite] Tooltip de teste validando su-floating-position + su-hotkey
-- [ ] Instalar e fixar AngularJS 1.8.3 como dependência core do projeto
 - [ ] Instalar e configurar Tailwind CSS (CLI/PostCSS)
 - [ ] Configurar bundler Rollup para build UMD (singular-ui.js)
 - [ ] Ambiente de desenvolvimento base: versão do Node/npm fixada, .gitignore, README inicial, pipeline de CI (Karma em Chrome Headless)
 - [ ] Implementar serviço suId (geração de ids únicos para ARIA)
 - [ ] Implementar serviço suColorMode (troca de tema claro/escuro)
-- [ ] Criar core.module.js e singular-ui.module.js (módulo raiz agregando singularUi.core e singularUi.components)
 - [x] Corrigir remote do git (remover token embutido na URL) e confirmar autenticação local com o GitHub
   - Evidência: `git remote -v` verificado em 2026-08-01 — fetch e push de `origin` ambos limpos, apontando para `https://github.com/oaugustus/singular-ui.git` sem credencial embutida.
 - [ ] Primeiro commit: estrutura inicial + specs de planejamento em /specs, push para o GitHub
