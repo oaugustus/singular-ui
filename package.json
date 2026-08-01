@@ -4,6 +4,9 @@
   "description": "Biblioteca de componentes UI para AngularJS 1.8.3, portando o design system do Nuxt UI",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "lint": "eslint ."
+  },
   "dependencies": {
     "@floating-ui/dom": "^1.8.0",
     "date-fns": "^4.4.0",
@@ -11,5 +14,9 @@
     "mousetrap": "^1.6.5",
     "tabbable": "^6.5.0",
     "tailwind-merge": "^3.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-plugin-angular": "^4.1.0"
   }
 }

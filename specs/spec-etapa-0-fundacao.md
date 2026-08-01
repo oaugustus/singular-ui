@@ -250,7 +250,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: criados `src/core/{tv,overlay,color-mode,id}/` com placeholders vazios (`*.service.js`, `*.directive.js`, `*.module.js`, `tv.service.spec.js`), `demo/.gitkeep`, `dist/.gitkeep`, `test/karma.conf.js`, `scripts/generate-tailwind-safelist.js`; confirmado via `find src demo dist test scripts -print` — sem `src/components/` nem `docs/`.
 - [x] package.json com dependências de terceiros (Floating UI, focus-trap, tabbable, Mousetrap, date-fns, tailwind-merge)
   - Evidência: criado `package.json` + `npm install` das 6 deps (`^`); versões em `node_modules`: `@floating-ui/dom@1.8.0`, `focus-trap@7.8.0`, `tabbable@6.5.0`, `mousetrap@1.6.5`, `date-fns@4.4.0`, `tailwind-merge@3.6.0`; `package-lock.json` gerado; 0 vulnerabilities.
-- [ ] Configurar ESLint (eslint-plugin-angular)
+- [x] Configurar ESLint (eslint-plugin-angular)
+  - Evidência: ESLint 8.57.1 + eslint-plugin-angular@4.1.0 (caminho legado `.eslintrc.cjs` + `plugin:angular/johnpapa`); criados `.eslintrc.cjs`, `.eslintignore`, script `npm run lint`; `npm run lint` / `eslint .` exit 0; escolha documentada no README.
 - [ ] Configurar Karma + Jasmine
 - [ ] Implementar suTv (motor de tema)
 - [ ] Testes de fixture: suTv vs tailwind-variants
