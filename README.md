@@ -10,3 +10,11 @@ O projeto usa **ESLint 8.x** com configuração legada (`.eslintrc.cjs`) e `esli
 ```bash
 npm run lint
 ```
+
+## Testes
+
+Os testes unitários usam **Karma + Jasmine** em Chrome Headless.
+
+```bash
+npm test
+```

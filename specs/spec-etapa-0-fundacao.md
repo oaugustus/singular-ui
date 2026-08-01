@@ -252,7 +252,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: criado `package.json` + `npm install` das 6 deps (`^`); versões em `node_modules`: `@floating-ui/dom@1.8.0`, `focus-trap@7.8.0`, `tabbable@6.5.0`, `mousetrap@1.6.5`, `date-fns@4.4.0`, `tailwind-merge@3.6.0`; `package-lock.json` gerado; 0 vulnerabilities.
 - [x] Configurar ESLint (eslint-plugin-angular)
   - Evidência: ESLint 8.57.1 + eslint-plugin-angular@4.1.0 (caminho legado `.eslintrc.cjs` + `plugin:angular/johnpapa`); criados `.eslintrc.cjs`, `.eslintignore`, script `npm run lint`; `npm run lint` / `eslint .` exit 0; escolha documentada no README.
-- [ ] Configurar Karma + Jasmine
+- [x] Configurar Karma + Jasmine
+  - Evidência: instalados `karma@6.4.4`, `karma-jasmine@5.1.0`, `jasmine-core@6.3.0`, `karma-chrome-launcher@3.2.0`; criados `test/karma.conf.js` (ChromeHeadless) + `test/smoke.spec.js`; script `npm test`; `npm test` → 1 of 1 SUCCESS; `npm run lint` exit 0.
 - [ ] Implementar suTv (motor de tema)
 - [ ] Testes de fixture: suTv vs tailwind-variants
 - [ ] Incluir ngAria e ngAnimate no módulo singularUi.core
