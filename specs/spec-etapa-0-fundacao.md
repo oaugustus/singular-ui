@@ -260,9 +260,12 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: criados `test/fixtures/{theme.fixture,class-normalize,su-tv-vs-tv.spec}.js`, shims Karma para `tailwind-variants` (esbuild IIFE + `tv-export.js`); `npm test` → 11 of 11 SUCCESS (6 casos de paridade suTv vs `tv`); `npm run lint` exit 0.
 - [x] Instalar e fixar AngularJS 1.8.3 + angular-aria + angular-animate (deps core do projeto) e atualizar karma.conf.js para carregá-las antes de src/
   - Evidência: `npm install angular@1.8.3 angular-aria@1.8.3 angular-animate@1.8.3 --save-exact` → deps em `package.json` sem `^`/`~`; `node_modules/{angular,angular-aria,angular-animate}/package.json` = `1.8.3`; `test/karma.conf.js` carrega `angular.js` → `angular-aria.js` → `angular-animate.js` antes de `src/**/*.js`; `npm test` → 11 of 11 SUCCESS; `npm run lint` exit 0.
-- [ ] Criar core.module.js e singular-ui.module.js (módulo raiz agregando singularUi.core e singularUi.components) — conteúdo exato de §5.8/§5.9, já com `['ngAria', 'ngAnimate']`
-- [ ] Incluir ngAria e ngAnimate no módulo singularUi.core
+- [x] Criar core.module.js e singular-ui.module.js (módulo raiz agregando singularUi.core e singularUi.components) — conteúdo exato de §5.8/§5.9, já com `['ngAria', 'ngAnimate']`
+  - Evidência: preenchidos `src/core/core.module.js` (`singularUi.core` + `['ngAria','ngAnimate']`) e `src/singular-ui.module.js` (`singularUi` + `['singularUi.core']`, sem `singularUi.components` — Etapa 1); `npm run lint` exit 0; `npm test` → 11 of 11 SUCCESS.
+- [x] Incluir ngAria e ngAnimate no módulo singularUi.core
   - Nota: sobreposta com o item anterior — a spec §5.8 já define `core.module.js` com `['ngAria', 'ngAnimate']` em uma única entrega. Só executar depois dos dois itens acima; ao concluí-los, marcar este como satisfeito por decorrência, sem código adicional.
+  - Evidência: satisfeito por decorrência — `src/core/core.module.js` declara `angular.module('singularUi.core', ['ngAria', 'ngAnimate'])` (§5.8); sem código adicional.
+
 - [ ] Implementar serviço suOverlayStack
 - [ ] Diretiva su-floating-position (wrapper Floating UI)
 - [ ] Diretiva su-focus-trap (wrapper focus-trap)
