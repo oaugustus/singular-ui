@@ -276,7 +276,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: implementados `hotkey.directive.js` (`suHotkey`, isolate `key`/`onTrigger`, `Mousetrap(element[0])` + unbind no `$destroy`) e `hotkey.directive.spec.js` (3 casos); Karma carrega `mousetrap.js`; `npm test` → 24 of 24 SUCCESS; `npm run lint` exit 0.
 - [x] Script generate-tailwind-safelist.js
   - Evidência: implementado `scripts/generate-tailwind-safelist.js` (varre `src/**/*.theme.js`, extrai classes de slots/variants/compoundVariants.class, escreve `tailwind.safelist.json`); script npm `generate:safelist`; sem themes → `[]` (0 classes); fixture temporário → 10 classes esperadas; fixture removido e regenerado `[]`; `npm run lint` exit 0.
-- [ ] App de demo vazio com hot-reload
+- [x] App de demo vazio com hot-reload
+  - Evidência: criados `demo/index.html` + `demo/app.js` (`demoApp` → `singularUi`); Vite 5.4.21 (`vite.config.js`, script `npm run demo`); README documenta hot-reload via Vite; `npm run demo` → http://localhost:5173/demo/index.html; browser: `demoApp`/`singularUi`/`singularUi.core` bootstrapped, injector ok, sem erros; `npm run lint` exit 0. (Vite 5 pinado — Vite 8 exige Node ≥20.19 e falha no Node 20.10 do ambiente.)
 - [ ] THIRD-PARTY-LICENSES.md inicial
 - [ ] [Critério de aceite] suBadge end-to-end com teste unitário passando
 - [ ] [Critério de aceite] Tooltip de teste validando su-floating-position + su-hotkey

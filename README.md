@@ -18,3 +18,13 @@ Os testes unitários usam **Karma + Jasmine** em Chrome Headless.
 ```bash
 npm test
 ```
+
+## Demo
+
+App AngularJS mínimo em `demo/` (página em branco, dependente de `singularUi`). Hot-reload via **Vite**:
+
+```bash
+npm run demo
+```
+
+Abre `/demo/index.html` e recarrega ao alterar arquivos em `demo/` ou `src/`.

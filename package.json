@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "bundle:tv-shim": "esbuild node_modules/tailwind-variants/dist/index.js --bundle --format=iife --global-name=TailwindVariants --outfile=test/shims/tailwind-variants.iife.js",
     "test": "npm run bundle:tv-shim && karma start test/karma.conf.js --single-run",
-    "generate:safelist": "node scripts/generate-tailwind-safelist.js"
+    "generate:safelist": "node scripts/generate-tailwind-safelist.js",
+    "demo": "vite"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.8.0",
@@ -29,6 +30,7 @@
     "karma": "^6.4.4",
     "karma-chrome-launcher": "^3.2.0",
     "karma-jasmine": "^5.1.0",
-    "tailwind-variants": "^3.3.0"
+    "tailwind-variants": "^3.3.0",
+    "vite": "^5.4.21"
   }
 }
