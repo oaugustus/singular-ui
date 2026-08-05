@@ -1,6 +1,6 @@
 'use strict';
 
-describe('fixture suTv vs tailwind-variants', function () {
+describe('fixture geTv vs tailwind-variants', function () {
   function materializeSlots(result) {
     var out = {};
     var key;
@@ -15,10 +15,10 @@ describe('fixture suTv vs tailwind-variants', function () {
     return out;
   }
 
-  suTvFixtureCases.forEach(function (fixtureCase) {
+  geTvFixtureCases.forEach(function (fixtureCase) {
     it('bate com tv para: ' + fixtureCase.name, function () {
-      var theme = suTvFixtureTheme;
-      var suClasses = suTv(theme)(fixtureCase.props);
+      var theme = geTvFixtureTheme;
+      var suClasses = geTv(theme)(fixtureCase.props);
       var tvClasses = materializeSlots(tv(theme)(fixtureCase.props));
       var slotName;
 

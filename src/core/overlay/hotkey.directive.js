@@ -8,7 +8,7 @@
     return null;
   }
 
-  function suHotkeyLink(scope, element, $window) {
+  function geHotkeyLink(scope, element, $window) {
     var Mousetrap = getMousetrap($window);
     if (!Mousetrap) {
       return;
@@ -64,9 +64,9 @@
     });
   }
 
-  function suHotkeyDirective($window) {
+  function geHotkeyDirective($window) {
     function link(scope, element) {
-      suHotkeyLink(scope, element, $window);
+      geHotkeyLink(scope, element, $window);
     }
 
     return {
@@ -81,7 +81,7 @@
 
   if (typeof angular !== 'undefined') {
     try {
-      angular.module('singularUi.core').directive('suHotkey', suHotkeyDirective);
+      angular.module('gravityElements.core').directive('geHotkey', geHotkeyDirective);
     } catch (e) {
       // Módulo ainda não declarado — registro ocorre quando core.module.js existir.
     }

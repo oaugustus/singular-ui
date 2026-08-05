@@ -3,7 +3,7 @@
 
   var BASE_Z_INDEX = 1000;
 
-  function suOverlayStackFactory() {
+  function geOverlayStackFactory() {
     var stack = [];
 
     function push(overlayRef) {
@@ -40,7 +40,7 @@
 
   if (typeof angular !== 'undefined') {
     try {
-      angular.module('singularUi.core').factory('suOverlayStack', suOverlayStackFactory);
+      angular.module('gravityElements.core').factory('geOverlayStack', geOverlayStackFactory);
     } catch (e) {
       // Módulo ainda não declarado — registro ocorre quando core.module.js existir.
     }

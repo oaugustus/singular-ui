@@ -1,7 +1,7 @@
-singular-ui
+gravity-elements
 ===========
 
-SingularUI - Módulo de UI do framework Singular
+Biblioteca de componentes UI para AngularJS 1.8.3, portando o design system do Nuxt UI. Parte da arquitetura Gravity (Orbtal) — port independente, sem afiliação oficial com Nuxt Labs.
 
 ## Lint
 
@@ -21,7 +21,7 @@ npm test
 
 ## Demo
 
-App AngularJS mínimo em `demo/` (página em branco, dependente de `singularUi`). Hot-reload via **Vite**:
+App AngularJS mínimo em `demo/` (página em branco, dependente de `gravityElements`). Hot-reload via **Vite**:
 
 ```bash
 npm run demo

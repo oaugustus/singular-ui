@@ -1,5 +1,5 @@
 (function () {
   'use strict';
 
-  angular.module('demoApp', ['singularUi']);
+  angular.module('demoApp', ['gravityElements']);
 })();

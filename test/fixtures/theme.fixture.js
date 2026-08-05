@@ -1,6 +1,6 @@
 'use strict';
 
-window.suTvFixtureTheme = {
+window.geTvFixtureTheme = {
   slots: {
     base: 'inline-flex items-center',
     label: 'truncate',
@@ -39,7 +39,7 @@ window.suTvFixtureTheme = {
   },
 };
 
-window.suTvFixtureCases = [
+window.geTvFixtureCases = [
   { name: 'defaults vazios', props: {} },
   { name: 'override color neutral', props: { color: 'neutral' } },
   { name: 'compound string on (primary+md)', props: { color: 'primary', size: 'md' } },

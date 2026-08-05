@@ -1,6 +1,6 @@
 'use strict';
 
-describe('suFocusTrap', function () {
+describe('geFocusTrap', function () {
   var $compile;
   var $rootScope;
   var host;
@@ -9,7 +9,7 @@ describe('suFocusTrap', function () {
   beforeEach(function () {
     appRoot = document.createElement('div');
     document.body.appendChild(appRoot);
-    angular.bootstrap(appRoot, ['singularUi.core']);
+    angular.bootstrap(appRoot, ['gravityElements.core']);
 
     var injector = angular.element(appRoot).injector();
     $compile = injector.get('$compile');
@@ -32,11 +32,11 @@ describe('suFocusTrap', function () {
     });
 
     var html =
-      '<div su-focus-trap' +
+      '<div ge-focus-trap' +
       (activeExpr ? ' active="' + activeExpr + '"' : '') +
       '>' +
-      '<button type="button" id="su-ft-first">First</button>' +
-      '<button type="button" id="su-ft-second">Second</button>' +
+      '<button type="button" id="ge-ft-first">First</button>' +
+      '<button type="button" id="ge-ft-second">Second</button>' +
       '</div>';
 
     var trapEl = angular.element(html);
@@ -50,13 +50,13 @@ describe('suFocusTrap', function () {
   it('com active=true, o foco fica dentro do trap após activate', function () {
     var outside = document.createElement('button');
     outside.type = 'button';
-    outside.id = 'su-ft-outside';
+    outside.id = 'ge-ft-outside';
     outside.textContent = 'Outside';
     host.appendChild(outside);
     outside.focus();
 
     var result = compileTrap({ trapActive: true }, 'trapActive');
-    var first = result.element.querySelector('#su-ft-first');
+    var first = result.element.querySelector('#ge-ft-first');
 
     expect(result.element.contains(document.activeElement)).toBe(true);
     expect(document.activeElement).toBe(first);

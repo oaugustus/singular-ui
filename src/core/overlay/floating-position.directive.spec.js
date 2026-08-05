@@ -1,6 +1,6 @@
 'use strict';
 
-describe('suFloatingPosition', function () {
+describe('geFloatingPosition', function () {
   var $compile;
   var $rootScope;
   var host;
@@ -36,7 +36,7 @@ describe('suFloatingPosition', function () {
   beforeEach(function () {
     appRoot = document.createElement('div');
     document.body.appendChild(appRoot);
-    angular.bootstrap(appRoot, ['singularUi.core']);
+    angular.bootstrap(appRoot, ['gravityElements.core']);
 
     var injector = angular.element(appRoot).injector();
     $compile = injector.get('$compile');
@@ -67,7 +67,7 @@ describe('suFloatingPosition', function () {
     scope.anchor = anchor;
 
     var floating = angular.element(
-      '<div su-floating-position reference="anchor" placement="bottom" offset="0">tip</div>'
+      '<div ge-floating-position reference="anchor" placement="bottom" offset="0">tip</div>'
     );
     host.appendChild(floating[0]);
     $compile(floating)(scope);
@@ -87,12 +87,12 @@ describe('suFloatingPosition', function () {
   });
 
   it('aceita seletor string como reference', function (done) {
-    anchor.id = 'su-fp-anchor';
+    anchor.id = 'ge-fp-anchor';
     var scope = $rootScope.$new();
-    scope.anchor = '#su-fp-anchor';
+    scope.anchor = '#ge-fp-anchor';
 
     var floating = angular.element(
-      '<div su-floating-position reference="anchor">tip</div>'
+      '<div ge-floating-position reference="anchor">tip</div>'
     );
     host.appendChild(floating[0]);
     $compile(floating)(scope);
@@ -115,7 +115,7 @@ describe('suFloatingPosition', function () {
     scope.anchor = anchor;
 
     var floating = angular.element(
-      '<div su-floating-position reference="anchor">tip</div>'
+      '<div ge-floating-position reference="anchor">tip</div>'
     );
     host.appendChild(floating[0]);
     $compile(floating)(scope);

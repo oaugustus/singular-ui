@@ -1,10 +1,10 @@
 'use strict';
 
-describe('suOverlayStack', function () {
+describe('geOverlayStack', function () {
   var stack;
 
   beforeEach(function () {
-    stack = angular.injector(['ng', 'singularUi.core']).get('suOverlayStack');
+    stack = angular.injector(['ng', 'gravityElements.core']).get('geOverlayStack');
   });
 
   it('começa vazia', function () {

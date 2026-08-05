@@ -1,6 +1,6 @@
 'use strict';
 
-describe('suTv', function () {
+describe('geTv', function () {
   var theme;
   var resolve;
 
@@ -32,7 +32,7 @@ describe('suTv', function () {
         size: 'md',
       },
     };
-    resolve = suTv(theme);
+    resolve = geTv(theme);
   });
 
   it('aplica defaultVariants quando props está vazio', function () {

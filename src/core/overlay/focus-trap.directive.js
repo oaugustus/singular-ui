@@ -8,7 +8,7 @@
     return null;
   }
 
-  function suFocusTrapLink(scope, element, $window) {
+  function geFocusTrapLink(scope, element, $window) {
     var createFocusTrap = getCreateFocusTrap($window);
     if (!createFocusTrap) {
       return;
@@ -56,9 +56,9 @@
     });
   }
 
-  function suFocusTrapDirective($window) {
+  function geFocusTrapDirective($window) {
     function link(scope, element) {
-      suFocusTrapLink(scope, element, $window);
+      geFocusTrapLink(scope, element, $window);
     }
 
     return {
@@ -72,7 +72,7 @@
 
   if (typeof angular !== 'undefined') {
     try {
-      angular.module('singularUi.core').directive('suFocusTrap', suFocusTrapDirective);
+      angular.module('gravityElements.core').directive('geFocusTrap', geFocusTrapDirective);
     } catch (e) {
       // Módulo ainda não declarado — registro ocorre quando core.module.js existir.
     }

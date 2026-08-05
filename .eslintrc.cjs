@@ -22,11 +22,11 @@ module.exports = {
         jasmine: true,
       },
       globals: {
-        suTv: 'readonly',
+        geTv: 'readonly',
         twMerge: 'readonly',
         tv: 'readonly',
-        suTvFixtureTheme: 'readonly',
-        suTvFixtureCases: 'readonly',
+        geTvFixtureTheme: 'readonly',
+        geTvFixtureCases: 'readonly',
         normalizeClasses: 'readonly',
       },
       rules: {
@@ -39,7 +39,7 @@ module.exports = {
     {
       files: ['src/core/tv/tv.service.js'],
       rules: {
-        // suTv é testável sem Angular; expõe API em globalThis/window
+        // geTv é testável sem Angular; expõe API em globalThis/window
         'angular/window-service': 'off',
       },
     },

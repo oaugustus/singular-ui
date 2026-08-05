@@ -1,4 +1,4 @@
-Você vai trabalhar em uma única tarefa do projeto SingularUi, definida no arquivo
+Você vai trabalhar em uma única tarefa do projeto Gravity Elements, definida no arquivo
 specs/spec-etapa-0-fundacao.md deste repositório.
 
 Tarefa (copiar exatamente): "Estrutura de pastas do repositório (LIFT + folder-by-feature)"
@@ -6,7 +6,7 @@ Tarefa (copiar exatamente): "Estrutura de pastas do repositório (LIFT + folder-
 Antes de propor qualquer plano:
 1. Leia specs/spec-etapa-0-fundacao.md por completo, especialmente a seção 3
    (estrutura de pastas a criar).
-2. Leia specs/singularui-especificacao-tecnica.md, seção 4 (estrutura de projeto).
+2. Leia specs/gravity-elements-especificacao-tecnica.md, seção 4 (estrutura de projeto).
 3. Inspecione o estado atual do repositório — não assuma nada de conversas anteriores.
 
 Proponha um plano do que vai ser criado (arquivos e pastas) para completar essa

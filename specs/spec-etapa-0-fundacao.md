@@ -1,6 +1,6 @@
-# SingularUi — Spec de Implementação: Etapa 0 (Fundação)
+# Gravity Elements — Spec de Implementação: Etapa 0 (Fundação)
 
-> Documento autocontido para implementação por agente de codificação (Cursor AI). Referências completas de arquitetura estão em `singularui-especificacao-tecnica.md`; este documento extrai e detalha apenas o necessário para a Etapa 0, sem exigir leitura cruzada constante.
+> Documento autocontido para implementação por agente de codificação (Cursor AI). Referências completas de arquitetura estão em `gravity-elements-especificacao-tecnica.md`; este documento extrai e detalha apenas o necessário para a Etapa 0, sem exigir leitura cruzada constante.
 
 ## Fluxo de trabalho desta etapa (importante)
 
@@ -17,10 +17,10 @@ Regras do TODO:
 
 **Granularidade: um chat de Plan mode do Cursor por item do TODO (seção 9), não um chat por etapa inteira.** Contexto zerado a cada tarefa evita que o agente perca precisão ou desvie de convenções estabelecidas ao acumular muitas tarefas na mesma conversa.
 
-Como cada chat começa sem memória do que veio antes, o título curto do item do TODO (ex. "Implementar suTv (motor de tema)") **não é contexto suficiente sozinho**. O prompt de abertura de cada chat de tarefa deve sempre incluir:
+Como cada chat começa sem memória do que veio antes, o título curto do item do TODO (ex. "Implementar geTv (motor de tema)") **não é contexto suficiente sozinho**. O prompt de abertura de cada chat de tarefa deve sempre incluir:
 
 1. O texto exato da linha do TODO que está sendo trabalhada (copiado desta spec).
-2. Referência às seções relevantes de `singularui-especificacao-tecnica.md` para aquela tarefa (para tarefas de componente em etapas futuras, isso é sempre a seção 5, "Contrato de componente", com o exemplo `button.component.js`/`button.theme.js`; para esta etapa, a seção correspondente listada em "5.x" abaixo).
+2. Referência às seções relevantes de `gravity-elements-especificacao-tecnica.md` para aquela tarefa (para tarefas de componente em etapas futuras, isso é sempre a seção 5, "Contrato de componente", com o exemplo `button.component.js`/`button.theme.js`; para esta etapa, a seção correspondente listada em "5.x" abaixo).
 3. Instrução explícita para o agente inspecionar o **estado atual do repositório** antes de planejar — é o código já existente, não o histórico da conversa, que carrega a continuidade entre uma tarefa e a próxima.
 
 Fluxo de cada tarefa:
@@ -33,7 +33,7 @@ Fluxo de cada tarefa:
 
 ## 1. Objetivo
 
-Montar o esqueleto do repositório `singular-ui` e todas as peças de infraestrutura (tema, interatividade, tooling) das quais os componentes visuais (Etapas 1 em diante) vão depender. **Nenhum componente visual (`su*`) é implementado nesta etapa** — só a fundação.
+Montar o esqueleto do repositório `gravity-elements` e todas as peças de infraestrutura (tema, interatividade, tooling) das quais os componentes visuais (Etapas 1 em diante) vão depender. **Nenhum componente visual (`ge*`) é implementado nesta etapa** — só a fundação.
 
 ## 2. Stack e dependências
 
@@ -48,7 +48,7 @@ Instalar como dependências do projeto (via npm), com AngularJS fixado na versã
 - `tabbable` — localizar/ordenar elementos focáveis (usado por diretivas de roving tabindex nas próximas etapas, mas instalado aqui).
 - `mousetrap` — atalhos de teclado.
 - `date-fns` — manipulação de datas (usado a partir da Etapa 1/2, mas instalado aqui).
-- `tailwind-merge` — merge de classes Tailwind conflitantes, usado por `suTv`.
+- `tailwind-merge` — merge de classes Tailwind conflitantes, usado por `geTv`.
 - `tailwindcss` (dev dependency) — v3.x (não a v4, pela compatibilidade de baseline definida na especificação técnica, seção 10).
 
 Dev dependencies de tooling:
@@ -63,7 +63,7 @@ Não fixar versões exatas dessas libs de terceiros (deixar `^` normal do npm) �
 ## 3. Estrutura de pastas a criar
 
 ```
-singular-ui/
+gravity-elements/
 ├── src/
 │   ├── core/
 │   │   ├── tv/
@@ -79,7 +79,7 @@ singular-ui/
 │   │   ├── id/
 │   │   │   └── id.service.js
 │   │   └── core.module.js
-│   └── singular-ui.module.js
+│   └── gravity-elements.module.js
 ├── demo/
 ├── dist/
 ├── test/
@@ -87,8 +87,8 @@ singular-ui/
 ├── scripts/
 │   └── generate-tailwind-safelist.js
 ├── specs/
-│   ├── singularui-especificacao-tecnica.md
-│   ├── singularui-plano-etapas.md
+│   ├── gravity-elements-especificacao-tecnica.md
+│   ├── gravity-elements-plano-etapas.md
 │   └── spec-etapa-0-fundacao.md      # este próprio arquivo, versionado junto
 ├── THIRD-PARTY-LICENSES.md
 ├── .gitignore
@@ -100,19 +100,19 @@ singular-ui/
 
 Não criar `src/components/` ainda — essa árvore só nasce na Etapa 1. Não criar `docs/` (reservado para o site Docusaurus da Etapa 9 — por isso os documentos de planejamento vão em `specs/`, não em `docs/`, para não colidir).
 
-## 3.1 Versionamento no GitHub (repositório `oaugustus/singular-ui`)
+## 3.1 Versionamento no GitHub (repositório `oaugustus/gravity-elements`)
 
-O repositório remoto já existe em `https://github.com/oaugustus/singular-ui`, e o diretório local já é um repositório git inicializado, com um commit inicial legado (README/LICENSE/.gitignore de um projeto antigo, não relacionados ao SingularUi) e um remote `origin` já configurado.
+O repositório remoto já existe em `https://github.com/oaugustus/gravity-elements`, e o diretório local já é um repositório git inicializado, com um commit inicial legado (README/LICENSE/.gitignore de um projeto antigo, não relacionados ao Gravity Elements) e um remote `origin` já configurado.
 
 **Atenção de segurança:** ao inspecionar o remote configurado (`git remote -v`), foi identificado um token de acesso pessoal do GitHub embutido em texto puro na URL (`https://<token>@github.com/...`). Antes de qualquer commit/push nesta etapa, este agente deve:
 1. Alertar o usuário de que esse token deve ser revogado/rotacionado no GitHub (se ainda não foi feito).
-2. Reconfigurar o remote sem token na URL: `git remote set-url origin https://github.com/oaugustus/singular-ui.git`, usando `gh auth login` ou um credential helper local para autenticação, em vez de token embutido na URL.
+2. Reconfigurar o remote sem token na URL: `git remote set-url origin https://github.com/oaugustus/gravity-elements.git`, usando `gh auth login` ou um credential helper local para autenticação, em vez de token embutido na URL.
 3. Nunca imprimir, logar ou commitar o valor do token em nenhum arquivo.
 
 Depois disso, o fluxo normal desta etapa é:
 1. Confirmar que a estrutura de pastas da seção 3 foi criada.
 2. Substituir o `README.md` e o `.gitignore` legados pelos definidos na seção 5.12/5.13 desta spec.
-3. Copiar `singularui-especificacao-tecnica.md` e `singularui-plano-etapas.md` (já estão em `specs/`, fornecidos pelo usuário) e este próprio arquivo de spec da Etapa 0 — todos versionados em `specs/`.
+3. Copiar `gravity-elements-especificacao-tecnica.md` e `gravity-elements-plano-etapas.md` (já estão em `specs/`, fornecidos pelo usuário) e este próprio arquivo de spec da Etapa 0 — todos versionados em `specs/`.
 4. Commit incluindo toda a estrutura desta etapa (seção 3) + a pasta `specs/`.
 5. Push para a branch padrão do repositório.
 
@@ -123,17 +123,17 @@ Autenticação com o GitHub além disso é responsabilidade do usuário/ambiente
 Aplicar em todo arquivo criado nesta etapa:
 
 - Um artefato Angular por arquivo, IIFE (`(function () { 'use strict'; ... })();`) — regras **Y001**, **Y010**.
-- Módulo declarado sem variável (setter), demais arquivos usam getter encadeado (`angular.module('singularUi.core').factory(...)`), nunca guardado em variável — **Y021–Y023**.
+- Módulo declarado sem variável (setter), demais arquivos usam getter encadeado (`angular.module('gravityElements.core').factory(...)`), nunca guardado em variável — **Y021–Y023**.
 - Funções nomeadas, nunca anônimas, dentro de `.factory()`/`.directive()`/`.constant()` — **Y024**.
-- `core.module.js` e `singular-ui.module.js` só declaram `angular.module(...)`, sem nenhuma lógica — são puramente wiring.
+- `core.module.js` e `gravity-elements.module.js` só declaram `angular.module(...)`, sem nenhuma lógica — são puramente wiring.
 - Nome de arquivo `<feature>.<tipo>.js` conforme árvore da seção 3 — **Y070**.
-- Toda diretiva usa prefixo `su-` — **Y073**.
+- Toda diretiva usa prefixo `ge-` — **Y073**.
 
 ## 5. Especificação de cada peça
 
-### 5.1 `core/tv/tv.service.js` — `suTv`
+### 5.1 `core/tv/tv.service.js` — `geTv`
 
-Factory Angular que expõe uma função `suTv(theme)` retornando `resolve(props)`.
+Factory Angular que expõe uma função `geTv(theme)` retornando `resolve(props)`.
 
 Algoritmo (implementar exatamente nesta ordem):
 1. Começa com os valores de `theme.defaultVariants`.
@@ -143,11 +143,11 @@ Algoritmo (implementar exatamente nesta ordem):
 5. Passa o resultado de cada slot por `twMerge` (de `tailwind-merge`) para deduplicar classes conflitantes.
 6. Retorna um objeto `{ base: '...', label: '...', ... }` com uma chave por slot.
 
-Assinatura: `suTv(theme)` retorna uma função; essa função aceita `props` e retorna o objeto de classes resolvidas. Ver exemplo de uso em `singularui-especificacao-tecnica.md`, seção 5 (`button.component.js`) e seção 6.
+Assinatura: `geTv(theme)` retorna uma função; essa função aceita `props` e retorna o objeto de classes resolvidas. Ver exemplo de uso em `gravity-elements-especificacao-tecnica.md`, seção 5 (`button.component.js`) e seção 6.
 
-**Teste obrigatório (`tv.service.spec.js`):** criar um objeto de tema mínimo (2 slots, 2 variantes, 1 compound variant, defaultVariants) e verificar que `suTv(theme)(props)` produz a string de classes esperada para pelo menos 4 combinações de props diferentes, incluindo um caso que ativa o compound variant e um caso que não ativa.
+**Teste obrigatório (`tv.service.spec.js`):** criar um objeto de tema mínimo (2 slots, 2 variantes, 1 compound variant, defaultVariants) e verificar que `geTv(theme)(props)` produz a string de classes esperada para pelo menos 4 combinações de props diferentes, incluindo um caso que ativa o compound variant e um caso que não ativa.
 
-### 5.2 `core/overlay/overlay-stack.service.js` — `suOverlayStack`
+### 5.2 `core/overlay/overlay-stack.service.js` — `geOverlayStack`
 
 Serviço singleton (factory) com:
 - `push(overlayRef)` — adiciona um overlay ao topo da pilha, retorna o z-index calculado (incremental a partir de um valor base configurável).
@@ -155,25 +155,25 @@ Serviço singleton (factory) com:
 - `top()` — retorna a referência do overlay no topo da pilha, ou `null` se vazia.
 - `size()` — quantidade de overlays abertos.
 
-Não implementar aqui a lógica de ESC (isso é `su-hotkey`, ligado a cada overlay individualmente na Etapa 4) — este serviço só gerencia a pilha e o z-index.
+Não implementar aqui a lógica de ESC (isso é `ge-hotkey`, ligado a cada overlay individualmente na Etapa 4) — este serviço só gerencia a pilha e o z-index.
 
-### 5.3 `core/overlay/floating-position.directive.js` — `su-floating-position`
+### 5.3 `core/overlay/floating-position.directive.js` — `ge-floating-position`
 
 Diretiva de atributo (`restrict: 'A'`) fina: no `link`, chama `computePosition` de `@floating-ui/dom` passando o elemento de referência (via binding/atributo) e o elemento flutuante (o próprio elemento da diretiva), aplicando o `top`/`left` resultante como `style` inline. Expor via bindings (isolate scope): `reference` (elemento ou seletor de referência), `placement` (default `'bottom'`), `offset` (default `0`). Limpar listeners no `$onDestroy`/`scope.$on('$destroy', ...)`.
 
-### 5.4 `core/overlay/focus-trap.directive.js` — `su-focus-trap`
+### 5.4 `core/overlay/focus-trap.directive.js` — `ge-focus-trap`
 
 Diretiva de atributo: no `link`, instancia `createFocusTrap` (de `focus-trap`) no elemento, ativa no `link` (ou quando um binding `active` se tornar `true`), desativa e destrói no `$onDestroy`. Expor binding `active` (boolean) para permitir ativação/desativação dinâmica (necessário para Modal/Drawer que abrem e fecham sem recriar o DOM).
 
-### 5.5 `core/overlay/hotkey.directive.js` — `su-hotkey`
+### 5.5 `core/overlay/hotkey.directive.js` — `ge-hotkey`
 
 Diretiva de atributo: recebe um binding `key` (string, ex. `'esc'`, `'mod+k'`) e um binding `onTrigger` (`&`, callback). No `link`, registra via `Mousetrap.bind(key, callback)`; no `$onDestroy`, `Mousetrap.unbind(key)`. Deve suportar múltiplas instâncias simultâneas sem uma sobrescrever o binding da outra (usar `Mousetrap(element[0])` por instância, não o singleton global, quando o binding for local a um elemento específico — para o atalho global do CommandPalette na Etapa 3, usar o singleton global `Mousetrap.bind`).
 
-### 5.6 `core/color-mode/color-mode.service.js` — `suColorMode`
+### 5.6 `core/color-mode/color-mode.service.js` — `geColorMode`
 
 Factory simples: `get()` (lê de `localStorage`, default `'system'`), `set(mode)` (persiste em `localStorage` e aplica/remove a classe `dark` no `documentElement`), `toggle()`. Não precisa de biblioteca externa — é intencionalmente simples (mesma lógica de qualquer dark-mode toggle padrão).
 
-### 5.7 `core/id/id.service.js` — `suId`
+### 5.7 `core/id/id.service.js` — `geId`
 
 Factory: `next(prefix)` retorna uma string única incremental (`prefix + '-' + contador`), usada para gerar ids de `aria-labelledby`/`aria-describedby`/`for`/`id` em componentes de formulário e overlay nas próximas etapas. Implementação trivial (contador incremental em closure), sem dependência externa.
 
@@ -183,21 +183,21 @@ Factory: `next(prefix)` retorna uma string única incremental (`prefix + '-' + c
 (function () {
   'use strict';
 
-  angular.module('singularUi.core', ['ngAria', 'ngAnimate']);
+  angular.module('gravityElements.core', ['ngAria', 'ngAnimate']);
 })();
 ```
 
-### 5.9 `singular-ui.module.js`
+### 5.9 `gravity-elements.module.js`
 
 ```js
 (function () {
   'use strict';
 
-  angular.module('singularUi', ['singularUi.core']);
+  angular.module('gravityElements', ['gravityElements.core']);
 })();
 ```
 
-(A dependência `singularUi.components` só é adicionada aqui a partir da Etapa 1, quando o módulo existir.)
+(A dependência `gravityElements.components` só é adicionada aqui a partir da Etapa 1, quando o módulo existir.)
 
 ### 5.10 `scripts/generate-tailwind-safelist.js`
 
@@ -208,7 +208,7 @@ Script Node (não precisa rodar em browser) que:
 
 ### 5.11 Demo app (`demo/`)
 
-App Angular mínimo (`demo/index.html` + `demo/app.js`) que carrega `singular-ui.module.js` como dependência e serve uma página em branco com hot-reload (pode usar `vite` ou `browser-sync` — escolha livre do agente, desde que documentado no README). Não precisa de rotas ainda (isso começa a fazer sentido na Etapa 1, quando há componentes para mostrar).
+App Angular mínimo (`demo/index.html` + `demo/app.js`) que carrega `gravity-elements.module.js` como dependência e serve uma página em branco com hot-reload (pode usar `vite` ou `browser-sync` — escolha livre do agente, desde que documentado no README). Não precisa de rotas ainda (isso começa a fazer sentido na Etapa 1, quando há componentes para mostrar).
 
 ### 5.12 `THIRD-PARTY-LICENSES.md`
 
@@ -218,27 +218,27 @@ Listar, com nome, versão instalada e licença: AngularJS, Nuxt UI e Reka UI (co
 
 - `.nvmrc` fixando a versão do Node usada.
 - `.gitignore` (node_modules, dist, coverage).
-- `README.md` com: descrição breve do projeto, como instalar, como rodar o demo, como rodar os testes, e um aviso de que o SingularUi é um port independente sem afiliação oficial com Nuxt Labs.
+- `README.md` com: descrição breve do projeto, como instalar, como rodar o demo, como rodar os testes, e um aviso de que o Gravity Elements é um port independente sem afiliação oficial com Nuxt Labs.
 - Pipeline de CI (GitHub Actions ou equivalente, arquivo `.github/workflows/ci.yml`): instala dependências, roda `karma start test/karma.conf.js --single-run` em Chrome Headless, roda `eslint`.
-- `rollup.config.js`: build de `src/singular-ui.module.js` (+ todos os arquivos de `src/core/`) para `dist/singular-ui.umd.js`, formato UMD, nome global `singularUi`.
+- `rollup.config.js`: build de `src/gravity-elements.module.js` (+ todos os arquivos de `src/core/`) para `dist/gravity-elements.umd.js`, formato UMD, nome global `gravityElements`.
 
 ## 6. Critérios de aceite (verificar e relatar todos)
 
 1. `npm install` roda sem erro e instala `angular@1.8.3` exatamente (conferir em `node_modules/angular/package.json`).
-2. `suTv` passa em todos os testes de `tv.service.spec.js` (mínimo 4 casos, incluindo 1 compound variant).
+2. `geTv` passa em todos os testes de `tv.service.spec.js` (mínimo 4 casos, incluindo 1 compound variant).
 3. `karma start test/karma.conf.js --single-run` roda e passa em Chrome Headless.
 4. `eslint .` roda sem erros de convenção (Y001/Y010/Y024 pelo menos, verificados manualmente já que não há regra de lint pronta para elas).
-5. `rollup -c` gera `dist/singular-ui.umd.js` sem erro, e o arquivo gerado expõe `window.singularUi` quando carregado via `<script>` puro (testar num HTML simples).
-6. Demo app sobe localmente (`npm run demo` ou equivalente) e carrega `singularUi` sem erros no console.
+5. `rollup -c` gera `dist/gravity-elements.umd.js` sem erro, e o arquivo gerado expõe `window.gravityElements` quando carregado via `<script>` puro (testar num HTML simples).
+6. Demo app sobe localmente (`npm run demo` ou equivalente) e carrega `gravityElements` sem erros no console.
 7. **Smoke test de integração** (não são os componentes de produção — esses são construídos de verdade nas Etapas 1 e 4, com fidelidade completa ao tema do Nuxt UI; aqui é só uma prova mínima e descartável de que a fundação funciona):
-   - Montar um `<div>` minúsculo usando `suTv` com um tema de teste simples (2-3 classes), só para provar que `suTv` + a estrutura de módulos funcionam ponta a ponta com um teste unitário passando.
-   - Montar uma página de teste temporária (dentro do próprio `demo/`) com um elemento posicionado via `su-floating-position` relativo a um botão, um `su-focus-trap` ativável por um binding, e um `su-hotkey` respondendo a `esc`. Relatar que os três se comportam como esperado (posição calculada corretamente, foco preso enquanto ativo, callback disparado no ESC).
+   - Montar um `<div>` minúsculo usando `geTv` com um tema de teste simples (2-3 classes), só para provar que `geTv` + a estrutura de módulos funcionam ponta a ponta com um teste unitário passando.
+   - Montar uma página de teste temporária (dentro do próprio `demo/`) com um elemento posicionado via `ge-floating-position` relativo a um botão, um `ge-focus-trap` ativável por um binding, e um `ge-hotkey` respondendo a `esc`. Relatar que os três se comportam como esperado (posição calculada corretamente, foco preso enquanto ativo, callback disparado no ESC).
    - Nenhum desses dois testes deve virar um arquivo permanente em `src/components/` — ficam em `demo/` ou em um teste de spec, e são descartados/substituídos quando a Etapa 1 (Badge) e a Etapa 4 (Tooltip) implementarem os componentes reais.
-8. `git log` mostra pelo menos um commit desta etapa, `git remote -v` aponta `origin` para `github.com/oaugustus/singular-ui` **sem token embutido na URL**, e o push para o repositório remoto foi confirmado (branch visível no GitHub com os arquivos desta etapa, incluindo `specs/`).
+8. `git log` mostra pelo menos um commit desta etapa, `git remote -v` aponta `origin` para `github.com/oaugustus/gravity-elements` **sem token embutido na URL**, e o push para o repositório remoto foi confirmado (branch visível no GitHub com os arquivos desta etapa, incluindo `specs/`).
 
 ## 7. Fora de escopo desta etapa
 
-Não implementar: qualquer componente `su*` visual (Button, Badge, etc. — Etapa 1), Docusaurus/docs (Etapa 9), `generate-props-docs.js` (Etapa 9), `components.module.js` (nasce na Etapa 1).
+Não implementar: qualquer componente `ge*` visual (Button, Badge, etc. — Etapa 1), Docusaurus/docs (Etapa 9), `generate-props-docs.js` (Etapa 9), `components.module.js` (nasce na Etapa 1).
 
 ## 8. Sobre o mapeamento com o TickTick
 
@@ -254,38 +254,38 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: ESLint 8.57.1 + eslint-plugin-angular@4.1.0 (caminho legado `.eslintrc.cjs` + `plugin:angular/johnpapa`); criados `.eslintrc.cjs`, `.eslintignore`, script `npm run lint`; `npm run lint` / `eslint .` exit 0; escolha documentada no README.
 - [x] Configurar Karma + Jasmine
   - Evidência: instalados `karma@6.4.4`, `karma-jasmine@5.1.0`, `jasmine-core@6.3.0`, `karma-chrome-launcher@3.2.0`; criados `test/karma.conf.js` (ChromeHeadless) + `test/smoke.spec.js`; script `npm test`; `npm test` → 1 of 1 SUCCESS; `npm run lint` exit 0.
-- [x] Implementar suTv (motor de tema)
-  - Evidência: implementados `src/core/tv/tv.service.js` (algoritmo + `window.suTv` + factory Angular condicional) e `tv.service.spec.js` (4 casos: defaults, override, compound on/off); shims Karma para `tailwind-merge`; `npm test` → 5 of 5 SUCCESS; `npm run lint` exit 0.
-- [x] Testes de fixture: suTv vs tailwind-variants
-  - Evidência: criados `test/fixtures/{theme.fixture,class-normalize,su-tv-vs-tv.spec}.js`, shims Karma para `tailwind-variants` (esbuild IIFE + `tv-export.js`); `npm test` → 11 of 11 SUCCESS (6 casos de paridade suTv vs `tv`); `npm run lint` exit 0.
+- [x] Implementar geTv (motor de tema)
+  - Evidência: implementados `src/core/tv/tv.service.js` (algoritmo + `window.geTv` + factory Angular condicional) e `tv.service.spec.js` (4 casos: defaults, override, compound on/off); shims Karma para `tailwind-merge`; `npm test` → 5 of 5 SUCCESS; `npm run lint` exit 0.
+- [x] Testes de fixture: geTv vs tailwind-variants
+  - Evidência: criados `test/fixtures/{theme.fixture,class-normalize,ge-tv-vs-tv.spec}.js`, shims Karma para `tailwind-variants` (esbuild IIFE + `tv-export.js`); `npm test` → 11 of 11 SUCCESS (6 casos de paridade geTv vs `tv`); `npm run lint` exit 0.
 - [x] Instalar e fixar AngularJS 1.8.3 + angular-aria + angular-animate (deps core do projeto) e atualizar karma.conf.js para carregá-las antes de src/
   - Evidência: `npm install angular@1.8.3 angular-aria@1.8.3 angular-animate@1.8.3 --save-exact` → deps em `package.json` sem `^`/`~`; `node_modules/{angular,angular-aria,angular-animate}/package.json` = `1.8.3`; `test/karma.conf.js` carrega `angular.js` → `angular-aria.js` → `angular-animate.js` antes de `src/**/*.js`; `npm test` → 11 of 11 SUCCESS; `npm run lint` exit 0.
-- [x] Criar core.module.js e singular-ui.module.js (módulo raiz agregando singularUi.core e singularUi.components) — conteúdo exato de §5.8/§5.9, já com `['ngAria', 'ngAnimate']`
-  - Evidência: preenchidos `src/core/core.module.js` (`singularUi.core` + `['ngAria','ngAnimate']`) e `src/singular-ui.module.js` (`singularUi` + `['singularUi.core']`, sem `singularUi.components` — Etapa 1); `npm run lint` exit 0; `npm test` → 11 of 11 SUCCESS.
-- [x] Incluir ngAria e ngAnimate no módulo singularUi.core
+- [x] Criar core.module.js e gravity-elements.module.js (módulo raiz agregando gravityElements.core e gravityElements.components) — conteúdo exato de §5.8/§5.9, já com `['ngAria', 'ngAnimate']`
+  - Evidência: preenchidos `src/core/core.module.js` (`gravityElements.core` + `['ngAria','ngAnimate']`) e `src/gravity-elements.module.js` (`gravityElements` + `['gravityElements.core']`, sem `gravityElements.components` — Etapa 1); `npm run lint` exit 0; `npm test` → 11 of 11 SUCCESS.
+- [x] Incluir ngAria e ngAnimate no módulo gravityElements.core
   - Nota: sobreposta com o item anterior — a spec §5.8 já define `core.module.js` com `['ngAria', 'ngAnimate']` em uma única entrega. Só executar depois dos dois itens acima; ao concluí-los, marcar este como satisfeito por decorrência, sem código adicional.
-  - Evidência: satisfeito por decorrência — `src/core/core.module.js` declara `angular.module('singularUi.core', ['ngAria', 'ngAnimate'])` (§5.8); sem código adicional.
+  - Evidência: satisfeito por decorrência — `src/core/core.module.js` declara `angular.module('gravityElements.core', ['ngAria', 'ngAnimate'])` (§5.8); sem código adicional.
 
-- [x] Implementar serviço suOverlayStack
-  - Evidência: implementados `src/core/overlay/overlay-stack.service.js` (factory `suOverlayStack` com `push`/`pop`/`top`/`size`, z-index base 1000) e `overlay-stack.service.spec.js` (4 casos); `npm test` → 15 of 15 SUCCESS; `npm run lint` exit 0.
-- [x] Diretiva su-floating-position (wrapper Floating UI)
-  - Evidência: implementados `src/core/overlay/floating-position.directive.js` (`suFloatingPosition`, isolate `reference`/`placement`/`offset`, `computePosition`+`autoUpdate`+`offset` de `@floating-ui/dom`) e `floating-position.directive.spec.js` (3 casos via `$compile`); Karma carrega UMDs `@floating-ui/core`+`@floating-ui/dom`; `npm test` → 18 of 18 SUCCESS; `npm run lint` exit 0.
-- [x] Diretiva su-focus-trap (wrapper focus-trap)
-  - Evidência: implementados `src/core/overlay/focus-trap.directive.js` (`suFocusTrap`, isolate `active`, `createFocusTrap` de `focus-trap` via `$window.focusTrap`, activate/deactivate + cleanup no `$destroy`) e `focus-trap.directive.spec.js` (3 casos via `$compile`); Karma carrega UMDs `tabbable` + `focus-trap`; `npm test` → 21 of 21 SUCCESS; `npm run lint` exit 0.
-- [x] Diretiva su-hotkey (wrapper Mousetrap)
-  - Evidência: implementados `hotkey.directive.js` (`suHotkey`, isolate `key`/`onTrigger`, `Mousetrap(element[0])` + unbind no `$destroy`) e `hotkey.directive.spec.js` (3 casos); Karma carrega `mousetrap.js`; `npm test` → 24 of 24 SUCCESS; `npm run lint` exit 0.
+- [x] Implementar serviço geOverlayStack
+  - Evidência: implementados `src/core/overlay/overlay-stack.service.js` (factory `geOverlayStack` com `push`/`pop`/`top`/`size`, z-index base 1000) e `overlay-stack.service.spec.js` (4 casos); `npm test` → 15 of 15 SUCCESS; `npm run lint` exit 0.
+- [x] Diretiva ge-floating-position (wrapper Floating UI)
+  - Evidência: implementados `src/core/overlay/floating-position.directive.js` (`geFloatingPosition`, isolate `reference`/`placement`/`offset`, `computePosition`+`autoUpdate`+`offset` de `@floating-ui/dom`) e `floating-position.directive.spec.js` (3 casos via `$compile`); Karma carrega UMDs `@floating-ui/core`+`@floating-ui/dom`; `npm test` → 18 of 18 SUCCESS; `npm run lint` exit 0.
+- [x] Diretiva ge-focus-trap (wrapper focus-trap)
+  - Evidência: implementados `src/core/overlay/focus-trap.directive.js` (`geFocusTrap`, isolate `active`, `createFocusTrap` de `focus-trap` via `$window.focusTrap`, activate/deactivate + cleanup no `$destroy`) e `focus-trap.directive.spec.js` (3 casos via `$compile`); Karma carrega UMDs `tabbable` + `focus-trap`; `npm test` → 21 of 21 SUCCESS; `npm run lint` exit 0.
+- [x] Diretiva ge-hotkey (wrapper Mousetrap)
+  - Evidência: implementados `hotkey.directive.js` (`geHotkey`, isolate `key`/`onTrigger`, `Mousetrap(element[0])` + unbind no `$destroy`) e `hotkey.directive.spec.js` (3 casos); Karma carrega `mousetrap.js`; `npm test` → 24 of 24 SUCCESS; `npm run lint` exit 0.
 - [x] Script generate-tailwind-safelist.js
   - Evidência: implementado `scripts/generate-tailwind-safelist.js` (varre `src/**/*.theme.js`, extrai classes de slots/variants/compoundVariants.class, escreve `tailwind.safelist.json`); script npm `generate:safelist`; sem themes → `[]` (0 classes); fixture temporário → 10 classes esperadas; fixture removido e regenerado `[]`; `npm run lint` exit 0.
 - [x] App de demo vazio com hot-reload
-  - Evidência: criados `demo/index.html` + `demo/app.js` (`demoApp` → `singularUi`); Vite 5.4.21 (`vite.config.js`, script `npm run demo`); README documenta hot-reload via Vite; `npm run demo` → http://localhost:5173/demo/index.html; browser: `demoApp`/`singularUi`/`singularUi.core` bootstrapped, injector ok, sem erros; `npm run lint` exit 0. (Vite 5 pinado — Vite 8 exige Node ≥20.19 e falha no Node 20.10 do ambiente.)
+  - Evidência: criados `demo/index.html` + `demo/app.js` (`demoApp` → `gravityElements`); Vite 5.4.21 (`vite.config.js`, script `npm run demo`); README documenta hot-reload via Vite; `npm run demo` → http://localhost:5173/demo/index.html; browser: `demoApp`/`gravityElements`/`gravityElements.core` bootstrapped, injector ok, sem erros; `npm run lint` exit 0. (Vite 5 pinado — Vite 8 exige Node ≥20.19 e falha no Node 20.10 do ambiente.)
 - [ ] THIRD-PARTY-LICENSES.md inicial
 - [ ] [Critério de aceite] suBadge end-to-end com teste unitário passando
-- [ ] [Critério de aceite] Tooltip de teste validando su-floating-position + su-hotkey
+- [ ] [Critério de aceite] Tooltip de teste validando ge-floating-position + ge-hotkey
 - [ ] Instalar e configurar Tailwind CSS (CLI/PostCSS)
-- [ ] Configurar bundler Rollup para build UMD (singular-ui.js)
+- [ ] Configurar bundler Rollup para build UMD (gravity-elements.js)
 - [ ] Ambiente de desenvolvimento base: versão do Node/npm fixada, .gitignore, README inicial, pipeline de CI (Karma em Chrome Headless)
-- [ ] Implementar serviço suId (geração de ids únicos para ARIA)
-- [ ] Implementar serviço suColorMode (troca de tema claro/escuro)
+- [ ] Implementar serviço geId (geração de ids únicos para ARIA)
+- [ ] Implementar serviço geColorMode (troca de tema claro/escuro)
 - [x] Corrigir remote do git (remover token embutido na URL) e confirmar autenticação local com o GitHub
-  - Evidência: `git remote -v` verificado em 2026-08-01 — fetch e push de `origin` ambos limpos, apontando para `https://github.com/oaugustus/singular-ui.git` sem credencial embutida.
+  - Evidência: `git remote -v` verificado em 2026-08-01 — fetch e push de `origin` ambos limpos, apontando para `https://github.com/oaugustus/gravity-elements.git` sem credencial embutida.
 - [ ] Primeiro commit: estrutura inicial + specs de planejamento em /specs, push para o GitHub

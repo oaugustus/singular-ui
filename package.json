@@ -1,7 +1,7 @@
 {
-  "name": "singular-ui",
+  "name": "gravity-elements",
   "version": "0.1.0",
-  "description": "Biblioteca de componentes UI para AngularJS 1.8.3, portando o design system do Nuxt UI",
+  "description": "Biblioteca de componentes UI para AngularJS 1.8.3 (Gravity Elements), portando o design system do Nuxt UI",
   "license": "MIT",
   "private": true,
   "scripts": {

@@ -24,7 +24,7 @@
     return null;
   }
 
-  function suFloatingPositionLink(scope, element, $window, $document) {
+  function geFloatingPositionLink(scope, element, $window, $document) {
     var floatingUi = getFloatingUiDom($window);
     if (!floatingUi || typeof floatingUi.computePosition !== 'function') {
       return;
@@ -105,9 +105,9 @@
     });
   }
 
-  function suFloatingPositionDirective($window, $document) {
+  function geFloatingPositionDirective($window, $document) {
     function link(scope, element) {
-      suFloatingPositionLink(scope, element, $window, $document);
+      geFloatingPositionLink(scope, element, $window, $document);
     }
 
     return {
@@ -124,8 +124,8 @@
   if (typeof angular !== 'undefined') {
     try {
       angular
-        .module('singularUi.core')
-        .directive('suFloatingPosition', suFloatingPositionDirective);
+        .module('gravityElements.core')
+        .directive('geFloatingPosition', geFloatingPositionDirective);
     } catch (e) {
       // Módulo ainda não declarado — registro ocorre quando core.module.js existir.
     }

@@ -52,7 +52,7 @@
     return true;
   }
 
-  function suTv(theme) {
+  function geTv(theme) {
     return function resolve(props) {
       var slots = (theme && theme.slots) || {};
       var variants = (theme && theme.variants) || {};
@@ -135,18 +135,18 @@
   }
 
   if (typeof window !== 'undefined') {
-    window.suTv = suTv;
+    window.geTv = geTv;
   }
 
   if (typeof angular !== 'undefined') {
     try {
-      angular.module('singularUi.core').factory('suTv', suTvFactory);
+      angular.module('gravityElements.core').factory('geTv', geTvFactory);
     } catch (e) {
       // Módulo ainda não declarado — registro ocorre quando core.module.js existir.
     }
   }
 
-  function suTvFactory() {
-    return suTv;
+  function geTvFactory() {
+    return geTv;
   }
 })();

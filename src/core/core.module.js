@@ -1,5 +1,5 @@
 (function () {
   'use strict';
 
-  angular.module('singularUi.core', ['ngAria', 'ngAnimate']);
+  angular.module('gravityElements.core', ['ngAria', 'ngAnimate']);
 })();

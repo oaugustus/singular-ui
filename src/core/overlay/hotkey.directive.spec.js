@@ -1,6 +1,6 @@
 'use strict';
 
-describe('suHotkey', function () {
+describe('geHotkey', function () {
   var $compile;
   var $rootScope;
   var host;
@@ -9,7 +9,7 @@ describe('suHotkey', function () {
   beforeEach(function () {
     appRoot = document.createElement('div');
     document.body.appendChild(appRoot);
-    angular.bootstrap(appRoot, ['singularUi.core']);
+    angular.bootstrap(appRoot, ['gravityElements.core']);
 
     var injector = angular.element(appRoot).injector();
     $compile = injector.get('$compile');
@@ -32,7 +32,7 @@ describe('suHotkey', function () {
     });
 
     var html =
-      '<div su-hotkey tabindex="-1" key="' +
+      '<div ge-hotkey tabindex="-1" key="' +
       key +
       '" on-trigger="' +
       onTriggerExpr +
