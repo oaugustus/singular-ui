@@ -288,7 +288,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: instalados `tailwindcss@3.4.19`, `postcss@8.5.26`, `autoprefixer@10.5.4` (devDeps); criados `tailwind.config.js` (`darkMode: 'class'`, `safelist` via `tailwind.safelist.json`), `postcss.config.js`, `src/styles/gravity-elements.css`; script `npm run build:css`; `npm run build:css` → `dist/gravity-elements.css` (5413 bytes); demo linka o CSS; THIRD-PARTY-LICENSES + README atualizados; `npm run lint` exit 0.
 - [x] Configurar bundler Rollup para build UMD (gravity-elements.js)
   - Evidência: instalados `rollup@^4.62.4`, `@rollup/plugin-node-resolve@^16.0.3`, `@rollup/plugin-commonjs@^29.0.3`; criados `src/index.js` + `rollup.config.js` (UMD, global `gravityElements`, `angular` external); script `npm run build:js`; `rollup -c` → `dist/gravity-elements.umd.js` (13383 bytes); HTML `demo/umd-smoke.html` confirma `window.gravityElements.name === 'gravityElements'`; karma exclui `src/index.js`; `npm test` → 29 of 29 SUCCESS; `npm run lint` exit 0; README documenta o build.
-- [ ] Ambiente de desenvolvimento base: versão do Node/npm fixada, .gitignore, README inicial, pipeline de CI (Karma em Chrome Headless)
+- [x] Ambiente de desenvolvimento base: versão do Node/npm fixada, .gitignore, README inicial, pipeline de CI (Karma em Chrome Headless)
+  - Evidência: criados `.nvmrc` (`20.10.0`) + `engines` em `package.json` (`node`/`npm` `20.10.0`/`10.2.3`); `.gitignore` reescrito (`node_modules`/`dist`/`coverage`); README com seção Instalação; `.github/workflows/ci.yml` (`npm ci` + `npm run lint` + `npm test`, Chrome via `browser-actions/setup-chrome`); `npm run lint` exit 0; `npm test` → 29 of 29 SUCCESS (Chrome Headless).
 - [ ] Implementar serviço geId (geração de ids únicos para ARIA)
 - [ ] Implementar serviço geColorMode (troca de tema claro/escuro)
 - [x] Corrigir remote do git (remover token embutido na URL) e confirmar autenticação local com o GitHub

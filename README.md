@@ -3,6 +3,15 @@ gravity-elements
 
 Biblioteca de componentes UI para AngularJS 1.8.3, portando o design system do Nuxt UI. Parte da arquitetura Gravity (Orbtal) — port independente, sem afiliação oficial com Nuxt Labs.
 
+## Instalação
+
+Versão fixada: **Node `20.10.0`** e **npm `10.2.3`** (`.nvmrc` + `engines` em `package.json`).
+
+```bash
+nvm use
+npm install
+```
+
 ## Lint
 
 O projeto usa **ESLint 8.x** com configuração legada (`.eslintrc.cjs`) e `eslint-plugin-angular` (preset `plugin:angular/johnpapa`), em vez de ESLint 9 flat config + FlatCompat — o plugin AngularJS é legado e não oferece flat config nativo.
