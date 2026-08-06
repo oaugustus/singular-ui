@@ -1,24 +1,30 @@
-Você vai trabalhar em uma única tarefa do projeto Gravity Elements, definida no arquivo
-specs/spec-etapa-0-fundacao.md deste repositório.
+Etapa 0 (Fundação) concluída em 2026-08-06 — as 25 tarefas do TODO de
+specs/spec-etapa-0-fundacao.md estão marcadas "- [x]", verificadas e sincronizadas
+no TickTick.
 
-Tarefa (copiar exatamente): "Instalar e configurar Tailwind CSS (CLI/PostCSS)"
+Não há tarefa pronta para copiar aqui ainda. A Etapa 1 (Layout + Element, 24
+componentes) precisa de uma spec de implementação própria (nos moldes de
+spec-etapa-0-fundacao.md) antes de abrir o primeiro chat de Plan mode no Cursor —
+isso é trabalho desta sessão (Claude/Cowork), não do Cursor. Depois que essa spec
+existir, volte a preencher este template com a primeira tarefa do TODO dela.
+
+---
+
+Você vai trabalhar em uma única tarefa do projeto Gravity Elements, definida no arquivo
+specs/spec-etapa-1-*.md deste repositório (ainda não criado).
+
+Tarefa (copiar exatamente): ""
 
 Antes de propor qualquer plano:
-1. Leia specs/spec-etapa-0-fundacao.md por completo, especialmente a seção 2 (stack e
-   dependências — tailwindcss como dev dependency, v3.x, não v4) e a seção 8 (build e
-   tooling).
-2. Leia specs/gravity-elements-especificacao-tecnica.md, seção 8 (Build e tooling —
-   Tailwind CLI/PostCSS gerando um gravity-elements.css único, e a necessidade do
-   script generate-tailwind-safelist.js, já implementado, para a safelist).
+1. Leia a spec de implementação da Etapa 1 por completo, seção da tarefa em questão.
+2. Leia specs/gravity-elements-especificacao-tecnica.md, seção 5 (contrato de
+   componente) e demais seções relevantes à tarefa.
 3. Inspecione o estado atual do repositório — não assuma nada de conversas anteriores.
-   Em especial, confirme que scripts/generate-tailwind-safelist.js e
-   tailwind.safelist.json já existem (Etapa 0, item já concluído) antes de planejar
-   como o tailwind.config.js vai consumir a safelist.
 
 Proponha um plano do que vai ser criado (arquivos e pastas) para completar essa
 tarefa. Não implemente nada ainda — aguarde minha aprovação do plano.
 
 Depois de aprovado: implemente, rode qualquer verificação aplicável, e só então
-marque o item como "- [x]" no TODO (seção 9) deste mesmo arquivo de spec, com uma
-sub-linha de evidência do que foi feito. Não altere o texto do item. Não toque
-em nenhum sistema de gestão de tarefas fora deste arquivo.
+marque o item como "- [x]" no TODO da spec da etapa, com uma sub-linha de evidência
+do que foi feito. Não altere o texto do item. Não toque em nenhum sistema de gestão
+de tarefas fora deste arquivo.

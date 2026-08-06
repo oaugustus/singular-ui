@@ -1,6 +1,6 @@
 # Gravity Elements — Status atual
 
-> Resumo de contexto para retomar o projeto em uma nova sessão. Última atualização: 2026-08-06.
+> Resumo de contexto para retomar o projeto em uma nova sessão. Última atualização: 2026-08-06 (Etapa 0 concluída).
 
 ## O que é o projeto
 
@@ -23,8 +23,8 @@ Convenção de código adotada: prefixo `ge-`/`ge` (ex.: `geTv`, `geOverlayStack
 - GitHub: `github.com/oaugustus/gravity-elements` (renomeado de `singular-ui`; URL antiga redireciona).
 - Pasta local: `~/Projetos/htdocs/gravity-elements` (renomeada de `singular-ui`).
 - Remote local (`git remote -v`) confirmado limpo, fetch e push ambos em `gravity-elements.git`, sem token embutido.
-- Commit mais recente enviado ao GitHub: `69c5647`. Branch local 3 commits à frente de `origin/master` no momento desta revisão (push pendente do lado do usuário).
-- **Há mudanças não commitadas no momento desta revisão** (entrega dos dois smoke tests da Etapa 0 — ver seção seguinte): `demo/index.html`, `test/karma.conf.js`, `specs/spec-etapa-0-fundacao.md`, `plantask.md` modificados; `demo/smoke-tooltip.{html,js}` e `test/smoke/` novos. Revisados e verificados nesta sessão, mas ainda não versionados — recomenda-se commit antes de abrir o próximo chat no Cursor.
+- Commit mais recente enviado ao GitHub: `ee2d9dc` (Tailwind CSS). Branch local 4 commits à frente de `origin/master` no momento desta revisão (push pendente do lado do usuário): `fd638d1` (Rollup), `4b1bfb7` (ambiente/CI), `ca80f38` (geId), `2f9412f` (geColorMode).
+- Working tree limpo no momento desta revisão (`git status` sem mudanças pendentes, exceto esta própria atualização do status).
 
 ## Documentos de planejamento (`specs/`)
 
@@ -34,35 +34,23 @@ Convenção de código adotada: prefixo `ge-`/`ge` (ex.: `geTv`, `geOverlayStack
 
 Etapas 1–6 e 9 ainda não têm spec de implementação detalhada — só a Etapa 0.
 
-## Progresso da Etapa 0 (Fundação)
+## Progresso da Etapa 0 (Fundação) — **CONCLUÍDA**
 
-19 de 25 tarefas concluídas e **verificadas de forma independente** (não só por relato):
+**25 de 25 tarefas concluídas e verificadas de forma independente** (não só por relato). TickTick zerado (projeto "Etapa 0 - Fundação" sem tarefas em aberto) em 2026-08-06.
 
-- Estrutura de pastas, `package.json` com dependências de terceiros, ESLint, Karma+Jasmine.
-- Motor de tema `geTv` (implementado e testado; lógica validada manualmente fora do Karma).
-- Testes de fixture `geTv` vs `tailwind-variants`.
-- AngularJS 1.8.3 + `angular-aria` + `angular-animate` instalados e fixados.
-- `core.module.js`/`gravity-elements.module.js` wireados corretamente.
-- `geOverlayStack`, diretivas `ge-floating-position`, `ge-focus-trap`, `ge-hotkey`.
-- Script `generate-tailwind-safelist.js`.
-- App de demo com Vite (hot-reload).
-- `THIRD-PARTY-LICENSES.md` inicial — 7 licenças conferidas uma a uma contra `node_modules/*/package.json` (inclusive o caso não óbvio do Mousetrap, Apache-2.0 WITH LLVM-exception).
-- Corrigir remote do git + primeiro commit/push confirmados.
-- Critério de aceite — smoke test `geBadge` end-to-end (`test/smoke/badge/`): componente mínimo via `geTv`, 2 casos (defaultVariants + override de `color`), revisado linha a linha.
-- Critério de aceite — smoke test Tooltip (`demo/smoke-tooltip.*` + `test/smoke/tooltip/`): integra `ge-floating-position` + `ge-focus-trap` + `ge-hotkey` (ESC), 3 casos (posição calculada, ESC fecha, foco preso), revisado linha a linha.
-
-**Pendente:**
-- Tailwind CSS (CLI/PostCSS) — **próxima tarefa da fila**, prompt já pronto em `plantask.md`.
-- Rollup (build UMD → `gravity-elements.js`).
-- Ambiente de desenvolvimento base: `.gitignore` ainda é o antigo (Dart/Flutter, não atualizado), README ainda incompleto (falta descrição completa + aviso de port independente sem afiliação com Nuxt Labs — parcialmente corrigido no rename, mas a tarefa formal de "Ambiente de desenvolvimento base" segue em aberto), `.nvmrc`, pipeline de CI.
-- `geId` (serviço de ids únicos para ARIA) — arquivo ainda vazio.
-- `geColorMode` (troca de tema claro/escuro) — arquivo ainda vazio.
+Entregas completas: estrutura de pastas, `package.json` + dependências de terceiros fixadas, ESLint, Karma+Jasmine, `geTv` (+ testes de fixture vs `tailwind-variants`), AngularJS 1.8.3/`angular-aria`/`angular-animate`, `core.module.js`/`gravity-elements.module.js`, `geOverlayStack`, `ge-floating-position`, `ge-focus-trap`, `ge-hotkey`, `generate-tailwind-safelist.js`, demo app com Vite, `THIRD-PARTY-LICENSES.md`, os dois smoke tests de critério de aceite (`geBadge` end-to-end, Tooltip com floating+focus-trap+hotkey), Tailwind CSS (CLI/PostCSS, `dist/gravity-elements.css`), Rollup (build UMD, `dist/gravity-elements.umd.js`), ambiente de desenvolvimento base (`.nvmrc`, `.gitignore` atualizado, README, CI no GitHub Actions), `geId`, `geColorMode`, remote do git corrigido e histórico de commits publicado.
 
 ## Qualidade / verificação
 
-- `eslint .` limpo em todo o código, confirmado rodando de novo nesta sessão (instalação nativa do sandbox, à parte do `node_modules` do Mac do usuário, para evitar binários nativos cruzados).
-- Testes unitários existem para todas as peças implementadas.
-- Execução completa do `npm test` (Karma + Chrome Headless) **segue sem poder ser confirmada automaticamente** no ambiente Cowork: o sandbox é Linux ARM64 sem root; o Chrome baixado via `puppeteer` para "linux_arm" é na verdade um binário x86-64 (não há build oficial do Chrome para Linux ARM64), e `apt install chromium` falha por falta de permissão de root. Mitigação usada: `eslint` roda nativamente (não depende de binário de browser) e os testes novos (`geBadge`, Tooltip) foram verificados por revisão de código linha a linha contra a spec, como já havia sido feito para o `geTv`. **Recomenda-se rodar `npm test` localmente (Mac do usuário, que tem Chrome) ou via CI (quando existir) para confirmar a suíte completa E2E.**
+- `eslint .` limpo, confirmado em instalação nativa isolada do sandbox (fora do `node_modules` do Mac do usuário, para evitar binários nativos cruzados).
+- `npm run build:css` e `npm run build:js` (Rollup) rodados de forma independente nesta sessão — geram `dist/gravity-elements.css` e `dist/gravity-elements.umd.js` sem erro.
+- **Karma + Chrome Headless segue sem poder ser confirmado automaticamente no ambiente Cowork**: sandbox Linux ARM64 sem root; o Chrome que o `puppeteer` baixa para "linux_arm" é na verdade um binário x86-64 (não há build oficial de Chrome para Linux ARM64), e `apt install chromium` falha por falta de permissão de root.
+- **Mitigação usada nesta revisão** — em vez de só ler o código, o bundle UMD final e os serviços `geId`/`geColorMode` foram **executados de verdade** via `jsdom` + AngularJS real (`angular.js`/`angular-aria`/`angular-animate` carregados num DOM simulado, sem depender de Chrome): confirmado que `window.gravityElements` é o módulo Angular real (`name: 'gravityElements'`, `requires: ['gravityElements.core']`), que `geId.next('aria')` gera `aria-1`, `aria-2`, `aria-3` incrementalmente, e que `geColorMode.set('dark')`/`toggle()` aplicam e removem a classe `dark` em `documentElement` corretamente. Os demais serviços/diretivas (`geTv`, `geOverlayStack`, `ge-floating-position`, `ge-focus-trap`, `ge-hotkey`, `geBadge`, Tooltip) foram confirmados por revisão de código linha a linha contra a spec, sem contradição com os resultados de Karma relatados pelo Cursor (contagem de testes cresceu de forma consistente ao longo das entregas: 11→15→18→21→24→26→29→32→37).
+- **Recomenda-se rodar `npm test` localmente (Mac do usuário, que tem Chrome de verdade) ou via CI (já configurado em `.github/workflows/ci.yml`) para confirmar a suíte completa Karma pelo menos uma vez.**
+
+## Próximo passo
+
+Etapa 0 encerrada. Falta apenas dar `git push` dos 4 commits locais pendentes. A partir daqui, a Etapa 1 (Layout + Element, 24 componentes) ainda não tem spec de implementação detalhada — precisa ser escrita (nos moldes de `spec-etapa-0-fundacao.md`) antes de abrir o primeiro chat no Cursor para essa etapa.
 
 ## Gestão de tarefas (TickTick)
 
