@@ -19,6 +19,16 @@ Os testes unitários usam **Karma + Jasmine** em Chrome Headless.
 npm test
 ```
 
+## CSS / Tailwind
+
+O CSS da biblioteca é gerado com **Tailwind CSS v3** (CLI + PostCSS/Autoprefixer). Classes dinâmicas dos `*.theme.js` entram via safelist (`npm run generate:safelist` → `tailwind.safelist.json`).
+
+```bash
+npm run build:css
+```
+
+Gera `dist/gravity-elements.css` (entrada em `src/styles/gravity-elements.css`).
+
 ## Demo
 
 App AngularJS mínimo em `demo/` (página em branco, dependente de `gravityElements`). Hot-reload via **Vite**:
@@ -27,4 +37,4 @@ App AngularJS mínimo em `demo/` (página em branco, dependente de `gravityEleme
 npm run demo
 ```
 
-Abre `/demo/index.html` e recarrega ao alterar arquivos em `demo/` ou `src/`.
+Abre `/demo/index.html` e recarrega ao alterar arquivos em `demo/` ou `src/`. Rode `npm run build:css` antes se `dist/gravity-elements.css` ainda não existir.

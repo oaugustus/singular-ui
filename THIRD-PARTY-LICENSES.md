@@ -25,8 +25,8 @@ Versões conferidas em `node_modules/*/package.json` no momento da criação des
 | date-fns | `date-fns` | 4.4.0 | MIT |
 | tailwind-merge | `tailwind-merge` | 3.6.0 | MIT |
 
-## Previsto (ainda não instalado)
+## Dependências de desenvolvimento (CSS)
 
-| Nome | Pacote npm | Versão | Licença | Notas |
+| Nome | Pacote npm | Versão instalada | Licença | Notas |
 |---|---|---|---|---|
-| Tailwind CSS | `tailwindcss` | previsto v3.x | MIT | Será instalado como dev dependency na tarefa de configuração do Tailwind desta etapa |
+| Tailwind CSS | `tailwindcss` | 3.4.19 | MIT | CLI/PostCSS; gera `dist/gravity-elements.css` |

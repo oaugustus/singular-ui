@@ -284,7 +284,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: criados `test/smoke/badge/{smoke.module,badge.theme,badge.component,badge.component.spec}.js` (módulo throwaway `gravityElements.smoke` + `geBadge` mínimo via `geTv`/`geBadgeTheme`); karma.conf carrega os 3 JS do smoke; `karma start test/karma.conf.js --single-run` → 26 of 26 SUCCESS (2 casos geBadge); `npm run lint` exit 0.
 - [x] [Critério de aceite] Tooltip de teste validando ge-floating-position + ge-hotkey
   - Evidência: criados `demo/smoke-tooltip.html` + `demo/smoke-tooltip.js` (página temporária §6.7 com `ge-floating-position` + `ge-focus-trap` + `ge-hotkey` ESC aninhados) e `test/smoke/tooltip/tooltip.smoke.spec.js` (3 casos); link em `demo/index.html`; `npm test` → 29 of 29 SUCCESS; `npm run lint` exit 0; browser em `/demo/smoke-tooltip.html`: tip com `position:absolute` + top/left sob o âncora, foco preso em “Dentro”, ESC fecha e marca status.
-- [ ] Instalar e configurar Tailwind CSS (CLI/PostCSS)
+- [x] Instalar e configurar Tailwind CSS (CLI/PostCSS)
+  - Evidência: instalados `tailwindcss@3.4.19`, `postcss@8.5.26`, `autoprefixer@10.5.4` (devDeps); criados `tailwind.config.js` (`darkMode: 'class'`, `safelist` via `tailwind.safelist.json`), `postcss.config.js`, `src/styles/gravity-elements.css`; script `npm run build:css`; `npm run build:css` → `dist/gravity-elements.css` (5413 bytes); demo linka o CSS; THIRD-PARTY-LICENSES + README atualizados; `npm run lint` exit 0.
 - [ ] Configurar bundler Rollup para build UMD (gravity-elements.js)
 - [ ] Ambiente de desenvolvimento base: versão do Node/npm fixada, .gitignore, README inicial, pipeline de CI (Karma em Chrome Headless)
 - [ ] Implementar serviço geId (geração de ids únicos para ARIA)
