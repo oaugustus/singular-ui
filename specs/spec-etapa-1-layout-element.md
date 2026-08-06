@@ -1,0 +1,240 @@
+# Gravity Elements — Spec de Implementação: Etapa 1 (Layout + Element)
+
+> Documento autocontido para implementação por agente de codificação (Cursor AI), nos moldes de `spec-etapa-0-fundacao.md`. Referências completas de arquitetura estão em `gravity-elements-especificacao-tecnica.md`; o processo operacional completo (papéis, fluxo Plan→Build→TODO, sincronização com TickTick) está em `processo-implementacao.md` — este documento extrai e detalha apenas o necessário técnico para a Etapa 1.
+
+## Fluxo de trabalho desta etapa (importante)
+
+Mesmo fluxo da Etapa 0, documentado em detalhe em `processo-implementacao.md`. Resumo:
+
+- Este agente **não tem e não deve buscar acesso** ao TickTick. Progresso é reportado exclusivamente marcando os itens do **TODO da seção 12** deste arquivo.
+- **Um chat de Plan mode por item do TODO**, não um chat por componente-e-meio nem por categoria inteira. Cada chat começa sem memória do que veio antes — o prompt de abertura (template `plantask.md`) deve sempre incluir o texto exato da tarefa, a referência de seção deste documento, e instrução para inspecionar o repositório atual antes de planejar.
+- Marcar `- [x]` só quando implementado **e verificado** (teste rodou e passou, não só "código escrito"). Sub-linha de evidência obrigatória. Não alterar o texto dos itens — espelham string-a-string as tarefas do TickTick.
+- Checkpoint manual adicional já vale a partir desta etapa para os componentes com lógica de verdade: **Calendar** (navegação por teclado), **Collapsible** (abrir/fechar) e **AvatarGroup** (colapso em "+N") — o Otávio confere manualmente no demo app antes de considerar a tarefa concluída, mesmo com a evidência do Cursor já registrada.
+
+## 1. Objetivo
+
+Implementar os 24 componentes das categorias **Layout** e **Element** do Nuxt UI, com paridade visual e de API, usando a fundação da Etapa 0 (`geTv`, `geId`, `geColorMode`, `geOverlayStack`, diretivas de interatividade). Esta é a primeira etapa que produz componentes `ge*` de produção — valida o padrão `component + theme + geTv` em volume antes dos casos complexos de formulário/overlay das etapas seguintes.
+
+Por que Layout+Element primeiro (já decidido em `gravity-elements-plano-etapas.md`): a maioria é estática ou tem estado local simples. Só **Collapsible**, **Calendar** e **AvatarGroup** têm lógica não trivial — os demais 21 são majoritariamente `geTv` + template + bindings.
+
+## 2. Stack e dependências desta etapa
+
+Nenhuma dependência nova de comportamento é necessária — `geTv`, `geId`, `geColorMode` (Etapa 0) e os módulos oficiais `ngAria`/`ngAnimate` já cobrem o que esta etapa precisa. `date-fns` (já instalado na Etapa 0, previsto para uso a partir daqui) entra em uso agora, no **Calendar**.
+
+Uma dependência nova, **só para o demo app** (não é dependência do pacote publicado, não entra no bundle UMD):
+
+- `angular-route` — módulo oficial `ngRoute`, mesma versão `1.8.3` das demais libs `angular-*`, fixada exata (`--save-exact`), como **devDependency** (o demo não é publicado; a biblioteca em si não força roteador nenhum ao app consumidor — ver seção 8).
+
+## 3. Estrutura de pastas a criar
+
+```
+gravity-elements/
+├── src/
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── app/
+│   │   │   │   ├── app.component.js
+│   │   │   │   ├── app.html
+│   │   │   │   ├── app.theme.js
+│   │   │   │   └── app.component.spec.js
+│   │   │   ├── container/        (mesmos 4 arquivos, padrão <feature>.<tipo>.js)
+│   │   │   ├── error/
+│   │   │   ├── footer/
+│   │   │   ├── header/
+│   │   │   ├── main/
+│   │   │   ├── sidebar/
+│   │   │   ├── theme/
+│   │   │   └── layout.module.js
+│   │   ├── element/
+│   │   │   ├── alert/
+│   │   │   ├── avatar/
+│   │   │   ├── avatar-group/
+│   │   │   ├── badge/            (substitui o smoke throwaway de test/smoke/badge/ — ver §7)
+│   │   │   ├── banner/
+│   │   │   ├── button/
+│   │   │   ├── calendar/
+│   │   │   ├── card/
+│   │   │   ├── chip/
+│   │   │   ├── collapsible/
+│   │   │   ├── field-group/
+│   │   │   ├── icon/
+│   │   │   ├── kbd/
+│   │   │   ├── progress/
+│   │   │   ├── separator/
+│   │   │   ├── skeleton/
+│   │   │   └── element.module.js
+│   │   └── components.module.js   # agrega layout.module + element.module
+│   └── gravity-elements.module.js # passa a incluir 'gravityElements.components'
+├── demo/
+│   ├── routes.js                  # ngRoute config, 1 entrada por componente
+│   └── pages/
+│       ├── layout/<nome>.html     # 1 página por componente Layout
+│       └── element/<nome>.html    # 1 página por componente Element
+```
+
+Nome de pasta = kebab-case do componente (`avatar-group/`, `field-group/`), nome de arquivo = `<feature>.<tipo>.js` (Y070), elemento HTML = `ge-avatar-group` etc.
+
+`src/index.js` (bundle UMD, criado na Etapa 0) passa a importar `components.module.js` e cada `*.component.js`/`*.theme.js` desta etapa — ver critério de aceite 2 na seção 9.
+
+## 4. Convenções obrigatórias (recap da Etapa 0, seção 4 da especificação técnica)
+
+Aplicar em todo arquivo criado nesta etapa, sem exceção:
+
+- Um artefato Angular por arquivo, IIFE (Y001, Y010).
+- `controllerAs: 'vm'` em todo componente (Y030–Y032) — nenhum componente novo usa `$scope` clássico.
+- Funções nomeadas dentro de `.component()` (Y024).
+- Getter syntax encadeada em todo arquivo exceto a declaração do módulo (Y021–Y023).
+- Prefixo `ge` no nome do componente (`geButton`, não `suButton` — a Etapa 0 já corrigiu esse resíduo de nome antigo).
+- `bindings` documentados via JSDoc no topo do controller, espelhando os nomes de prop do Nuxt UI (`color`, `variant`, `size`...) sempre que possível, para consulta cruzada com `ui.nuxt.com/docs/components/<nome>`.
+
+## 5. Contrato de componente (recap da especificação técnica, seção 5)
+
+Todo componente desta etapa tem, no mínimo, os 4 arquivos: `*.component.js`, `*.html`, `*.theme.js`, `*.component.spec.js`. O exemplo de referência (`button.component.js`/`button.theme.js`) já está na especificação técnica, seção 5 — usar como molde de estrutura (não copiar os valores de classe, que são específicos do Button).
+
+**Algoritmo do tema**: todo `*.theme.js` é `.constant()` no módulo de categoria (`gravityElements.element` ou `gravityElements.layout`), consumido via `geTv` (já implementado e testado na Etapa 0) — não reimplementar resolução de variantes componente a componente.
+
+### 5.1 Referência de design — versão fixada
+
+**Referência: Nuxt UI `v4.10.0`** (`github.com/nuxt/ui`, tag/release correspondente a essa versão — confirmar tag exata no GitHub antes de começar; era a última versão publicada no npm em 2026-08-06, data desta spec). Portar quase 1:1 os arquivos `theme/<nome>.ts` dessa versão fixa, não da branch `main`/`latest` a esmo — a Etapa 1 pode se estender por várias sessões de Cursor sem prazo definido (prioridade baixa do projeto), e o Nuxt UI pode publicar novas versões nesse meio-tempo; usar sempre a v4.10.0 como base evita inconsistência visual entre componentes portados em momentos diferentes.
+
+Se, ao longo da etapa, uma nova versão do Nuxt UI for lançada e algum componente específico precisar dela por algum motivo pontual, registrar a exceção explicitamente na evidência do TODO (qual componente, qual versão, por quê) — não trocar a referência da etapa inteira sem atualizar esta seção primeiro.
+
+Nuxt UI v4 unificou Nuxt UI + Nuxt UI Pro (release de setembro/2025) sem reescrever a arquitetura de tema da v3 (migração descrita pelo próprio Nuxt como "effortless", ao contrário do salto v2→v3) — a base já assumida na especificação técnica (Vue 3 + Reka UI + `tailwind-variants`) continua válida.
+
+Cada `*.theme.js` portado leva o cabeçalho de atribuição:
+```js
+// Portado de github.com/nuxt/ui v4.10.0, MIT License, Copyright (c) Nuxt Labs
+```
+
+### 5.2 Padrão de bindings
+
+Bindings simples (`@`, string/enum) para props visuais (`color`, `variant`, `size`), `<` (one-way) para valores/objetos/booleans, `&` para callbacks (`onClick`, `onClose`). Nenhum componente desta etapa usa `require: 'ngModel'` — isso começa na Etapa 2 (Form).
+
+### 5.3 Transclusion
+
+Componentes com conteúdo livre (`geCard`, `geFooter`, `geHeader`, `geFieldGroup`) usam `transclude: true` (ou `transclude: { slotName: '?elementName' }` para multi-slot, disponível desde Angular 1.5) — não reinventar sistema de slots.
+
+### 5.4 Ícones (`geIcon` e uso interno por outros componentes)
+
+O Nuxt UI usa o módulo `Icon` (Iconify) para resolver qualquer coleção de ícones por nome de string. O AngularJS não tem equivalente pronto e o Gravity Elements **não empacota um sistema de ícones próprio** (fora de escopo — ver seção 10). `geIcon` é deliberadamente fino: aplica o binding `name` como classe CSS no elemento (`<i class="{{ vm.name }} {{ vm.classes.base }}"></i>` ou `<span>` equivalente) mais classes de tamanho via `geTv`. Cabe ao app consumidor registrar uma fonte de ícones compatível com classes CSS (ex.: Iconify via `@iconify/tailwind`, Font Awesome, ou qualquer lib que resolva `name` → ícone visível). Documentar essa decisão no README do componente e no `*.component.js` via comentário.
+
+### 5.5 Acessibilidade (ARIA) por componente
+
+`ngAria` (incluído em `gravityElements.core` desde a Etapa 0) cobre automaticamente `aria-disabled`/`aria-required`/`aria-checked`/`aria-invalid` quando os bindings correspondentes (`ng-disabled`, `ng-required`, `ngModel`) são usados — mas **não cobre roles nem atributos específicos de widget**, que precisam ser adicionados manualmente no template de cada componente. Mínimo obrigatório nesta etapa:
+
+| Componente | ARIA mínimo |
+|---|---|
+| `geAlert` | `role="alert"` no elemento raiz. |
+| `geBanner` | `role="status"` (ou `role="alert"` se `color` indicar erro/warning — decisão do Cursor, documentar). |
+| `geAvatar` | `alt` obrigatório no `<img>` quando `src` é usado; `aria-hidden="true"` no fallback de ícone/iniciais quando não há texto acessível equivalente. |
+| `geAvatarGroup` | `aria-label` no avatar `+N` (ex. `"mais 3"`), não só texto visual. |
+| `geButton` | `aria-busy="true"` quando `loading` (além do `aria-disabled` automático via `ngAria`/`ng-disabled`). |
+| `geCollapsible` | `aria-expanded` no elemento de trigger, `aria-controls` apontando pro id do painel (via `geId`, Etapa 0), painel com `aria-hidden` quando fechado. |
+| `geCalendar` | Grid de dias com `role="grid"`/`role="row"`/`role="gridcell"` (ou `role="button"` por dia, se optar por estrutura mais simples — documentar a escolha), `aria-selected` no dia selecionado, `aria-label` por dia com data completa (via `date-fns format`), região do mês/ano com `aria-live="polite"` para anunciar troca de mês. |
+| `geProgress` | `role="progressbar"`, `aria-valuenow`/`aria-valuemin`/`aria-valuemax`. |
+| `geSeparator` | `role="separator"`, `aria-orientation` espelhando o binding `orientation`. |
+| `geSkeleton` | `aria-hidden="true"` (é só placeholder visual, não deve ser anunciado por leitor de tela). |
+| `geSidebar` | Botão de toggle com `aria-expanded` refletindo `collapsed`. |
+| `geTheme` | Botão de troca de tema com `aria-label` descritivo (ex. `"Alternar tema claro/escuro"`) — não depender só de ícone. |
+
+Demais componentes da tabela das seções 6/7 sem ARIA especificado aqui não têm requisito adicional além do que `ngAria` já cobre automaticamente.
+
+### 5.6 Casos de teste mínimos — componentes com lógica
+
+Os demais componentes (a maioria) seguem o padrão já validado na Etapa 0 para `geBadge`: pelo menos 2 casos por componente (defaultVariants e 1 override de prop relevante) já satisfazem o contrato. Os três com lógica de verdade precisam de mais:
+
+- **`geCalendar`**: mínimo 5 casos — navegação por seta (foco move um dia), `Home`/`End` (início/fim da semana), `PageUp`/`PageDown` (troca de mês, com o mês exibido atualizado), `Enter`/`Espaço` seleciona o dia focado e dispara `onUpdate`, e um caso de limite (`minDate`/`maxDate` desabilita navegação além do intervalo).
+- **`geCollapsible`**: mínimo 3 casos — abre e aplica `aria-expanded="true"` + remove `aria-hidden` do painel, fecha e reverte, e um caso com `disabled: true` confirmando que o toggle não muda o estado.
+- **`geAvatarGroup`**: mínimo 3 casos — menos que `max` avatares (todos visíveis, sem "+N"), exatamente `max` (todos visíveis, sem "+N"), mais que `max` (excedente escondido, avatar "+N" com o número certo e `aria-label` correspondente).
+
+## 6. Componentes — Layout (8)
+
+| Componente | Bindings principais | Notas |
+|---|---|---|
+| `geApp` | — (sem bindings próprios) | Container raiz opcional; no `$onInit`, se `geColorMode` estiver disponível, aplica o modo persistido (`get()`) — dogfooding do serviço da Etapa 0, sem reimplementar nada. |
+| `geContainer` | `size` (`@`, opcional, largura máxima) | Wrapper simples de centralização/padding; transclusion. |
+| `geError` | `statusCode` (`@`), `statusMessage` (`@`), `clear` (`<`, boolean — mostra botão), `onClear` (`&`) | Página de erro genérica (404/500), paridade com `Error` do Nuxt UI. |
+| `geFooter` | — | Transclusion simples; slot único. |
+| `geHeader` | `title` (`@`, opcional) | Transclusion com slot para ações à direita (`transclude: { title: '?geHeaderTitle', right: '?geHeaderRight' }` ou binding `title` + transclusion simples do restante — decisão livre do Cursor, documentar a escolhida). |
+| `geMain` | — | Wrapper semântico (`<main>`), sem lógica. |
+| `geSidebar` | `side` (`@`, `'left'`\|`'right'`, default `'left'`), `collapsed` (`<`, two-way via `=` se necessário), `onToggle` (`&`) | **Versão simples de Layout** — largura fixa, toggle binário de colapso. Não confundir com `DashboardSidebar` (resize handle, colapso avançado), que é Etapa 6; esta é a base estática. ARIA: ver seção 5.5. |
+| `geTheme` | `mode` (`<`, opcional — controla `geColorMode` de fora) | Único componente desta etapa que integra `geColorMode` (Etapa 0) diretamente; expõe toggle claro/escuro básico. Variantes de outros componentes por tema (`ColorModeButton`/`Select`/`Switch`) ficam fora do escopo da v1 (especificação técnica, seção 12). ARIA: ver seção 5.5. |
+
+## 7. Componentes — Element (16)
+
+| Componente | Bindings principais | Notas |
+|---|---|---|
+| `geAlert` | `title` (`@`), `description` (`@`), `color` (`@`), `variant` (`@`), `icon` (`@`), `closable` (`<`), `onClose` (`&`) | Usa `geIcon` internamente se `icon` for passado. ARIA: ver seção 5.5. |
+| `geAvatar` | `src` (`@`), `alt` (`@`), `text` (`@`, fallback iniciais), `icon` (`@`, fallback ícone), `size` (`@`), `chipColor`/`chipPosition` (`@`, indicador de status) | Fallback: `src` → `text` → `icon`, nessa ordem, resolvido no controller. ARIA: ver seção 5.5. |
+| `geAvatarGroup` | `max` (`<`, número), `size` (`@`, propaga para os avatares filhos) | Transclusion de múltiplos `<ge-avatar>`; no `$onInit`/`$postLink`, conta os filhos, aplica overlap (classe de margem negativa via tema) e substitui o excedente (`> max`) por um avatar `+N`. Casos de teste mínimos: seção 5.6. |
+| `geBadge` | `label` (`@`), `color` (`@`), `variant` (`@`), `size` (`@`) | **Promove o smoke test da Etapa 0** (`test/smoke/badge/`) à versão de produção em `src/components/element/badge/`. O smoke era deliberadamente mínimo (só `color`); esta versão precisa do contrato completo (`variant`, `size`, paridade total com `ui.nuxt.com/docs/components/badge`). Depois de migrado, apagar `test/smoke/badge/` (era descartável por definição — seção 6.7 da spec da Etapa 0) e remover as 3 linhas de `test/karma.conf.js` que carregavam o smoke module. |
+| `geBanner` | `title` (`@`), `icon` (`@`), `color` (`@`), `closable` (`<`), `onClose` (`&`) | Transclusion opcional para ações extras. ARIA: ver seção 5.5. |
+| `geButton` | `label` (`@`), `color` (`@`), `variant` (`@`), `size` (`@`), `block` (`<`), `square` (`<`), `loading` (`<`), `disabled` (`<`), `onClick` (`&`) | Exemplo de referência já dado na especificação técnica, seção 5 — implementar literalmente esse contrato (mais leading/trailing icon via `geIcon`, se aplicável). ARIA: ver seção 5.5. |
+| `geCalendar` | `modelValue` (`<`, Date), `onUpdate` (`&`), `minDate` (`<`), `maxDate` (`<`), `locale` (`@`, opcional) | **Componente não trivial.** Grid de dias do mês com roving tabindex (`tabbable`, mesma lib da Etapa 0); navegação: setas movem foco dia-a-dia, `Home`/`End` vão para início/fim da semana, `PageUp`/`PageDown` trocam de mês, `Enter`/`Espaço` selecionam. Matemática de datas via `date-fns` (`startOfMonth`, `endOfMonth`, `addMonths`, `format`, `isSameDay`) — não reimplementar cálculo de calendário à mão. ARIA e casos de teste mínimos: seções 5.5/5.6. |
+| `geCard` | — | Multi-slot via `transclude: { header: '?geCardHeader', body: '?geCardBody', footer: '?geCardFooter' }` (ou slot único se o Nuxt UI v4.10.0 original for mais simples — conferir `ui.nuxt.com/docs/components/card` antes de decidir). |
+| `geChip` | `text`/`label` (`@`), `color` (`@`), `size` (`@`), `position` (`@`), `standalone` (`<`) | Paridade com indicador de notificação do Nuxt UI (usado sozinho ou sobre outro elemento). |
+| `geCollapsible` | `modelValue` (`<`, boolean — aberto/fechado), `onUpdate` (`&`), `disabled` (`<`) | **Componente não trivial.** Transição de altura via `ngAnimate` (`ng-if`/`ng-show` com classes `.ge-collapsible-enter`/`.ge-collapsible-leave`, já que `ngAnimate` está incluído em `gravityElements.core` desde a Etapa 0) — não escrever animação JS própria. ARIA e casos de teste mínimos: seções 5.5/5.6. |
+| `geFieldGroup` | `size` (`@`, propaga para os filhos) | Agrupamento visual de inputs/botões adjacentes (bordas coladas). Só o wrapper nesta etapa — inputs de verdade nascem na Etapa 2. |
+| `geIcon` | `name` (`@`), `size` (`@`) | Ver seção 5.4 — aplica `name` como classe CSS, sem sistema de ícones embutido. |
+| `geKbd` | `value` (`@`) ou `keys` (`<`, array) | Tabela estática de símbolos para teclas especiais (`cmd` → `⌘`, `shift` → `⇧` etc.), paridade com `Kbd` do Nuxt UI. |
+| `geProgress` | `value` (`<`), `max` (`<`, default 100), `color` (`@`), `size` (`@`), `status` (`<`, boolean — mostra label de %) | Barra simples; sem animação de indeterminate nesta etapa a menos que o Nuxt UI v4.10.0 original tenha (conferir antes de implementar). ARIA: ver seção 5.5. |
+| `geSeparator` | `orientation` (`@`, `'horizontal'`\|`'vertical'`), `label` (`@`, opcional), `color` (`@`), `size` (`@`), `type` (`@`, `'solid'`\|`'dashed'`) | Sem lógica além de `geTv`. ARIA: ver seção 5.5. |
+| `geSkeleton` | — | Só classes de tema (animação `pulse` via CSS/Tailwind, sem JS). ARIA: ver seção 5.5. |
+
+## 8. Demo app: 1 rota por componente
+
+Adotar `ngRoute` (módulo oficial do AngularJS, mesma escolha "oficial primeiro" já usada para `ngAria`/`ngAnimate`/`ngMessages` na Etapa 0/2) só no `demo/`, como devDependency:
+
+- `npm install angular-route@1.8.3 --save-exact --save-dev`.
+- `demo/routes.js`: `$routeProvider.when('/layout/app', { templateUrl: 'demo/pages/layout/app.html' })` etc., uma entrada por componente (24 rotas), `otherwise` redirecionando para a primeira.
+- Uma página HTML por componente em `demo/pages/<categoria>/<nome>.html`, com pelo menos: uso básico e 2–3 variações de props relevantes visíveis lado a lado (facilita a comparação visual do critério de aceite).
+- `demo/index.html` ganha `ng-view` + navegação lateral simples (lista de links para as 24 rotas; pode usar o próprio `geSidebar` assim que estiver pronto — dogfooding, não obrigatório).
+- Isso é aditivo ao demo existente da Etapa 0 (`demo/app.js`, `demo/smoke-tooltip.*`) — não remover o que já está lá, só estender.
+
+## 9. Critérios de aceite (verificar e relatar todos)
+
+1. Cada um dos 24 componentes: os 4 arquivos do contrato completos (seção 5), teste unitário Karma passando com o mínimo de casos aplicável (seção 5.6 para `geCalendar`/`geCollapsible`/`geAvatarGroup`, 2 casos para os demais), ARIA mínimo aplicado onde exigido (seção 5.5), `eslint .` limpo.
+2. `src/index.js` atualizado para importar `components.module.js` e cada `*.component.js`/`*.theme.js` desta etapa; `npm run build:js` (Rollup) continua gerando `dist/gravity-elements.umd.js` sem erro, com os 24 componentes registrados em `gravityElements.components` (verificar via injector, como já feito na Etapa 0 para `geId`/`geColorMode`).
+3. `npm run build:css` (Tailwind) gera `dist/gravity-elements.css` sem erro **e** a safelist (`tailwind.safelist.json`) captura de fato as classes de todos os `*.theme.js` novos — esta é a primeira vez que `generate-tailwind-safelist.js` roda contra temas reais (na Etapa 0 só foi validado com 0 temas). Se algum tema do Nuxt UI usar classe montada dinamicamente (ex. `` `bg-${color}-500` ``), confirmar manualmente que a classe final aparece no CSS gerado; se o script não capturar, ajustar o script ou listar a classe explicitamente no `tailwind.config.js` (`safelist` estático) e registrar a exceção na evidência.
+4. Demo app com as 24 rotas navegáveis (`npm run demo`), sem erro no console do navegador.
+5. `npm test` (Karma) continua passando 100%, incluindo toda a suíte herdada da Etapa 0 (nenhuma regressão) — reportar a contagem final de testes.
+6. [Critério de aceite] Comparação visual com `ui.nuxt.com` (versão v4.10.0 fixada na seção 5.1) sem divergência perceptível, componente a componente.
+7. [Critério de aceite] Calendar navegável por teclado — os 5 casos da seção 5.6 passando, mais confirmação manual no demo app (checkpoint da seção "Fluxo de trabalho").
+
+## 10. Fora de escopo desta etapa
+
+Componentes de Form, Data, Navigation, Overlay e Dashboard (Etapas 2–6). Sistema de ícones embutido (só a classe-passthrough da seção 5.4). Variantes de Color Mode por componente (`ColorModeButton`/`Select`/`Switch` — v2, especificação técnica seção 12). Qualquer uso de `ge-floating-position`/`ge-focus-trap`/`ge-hotkey` (isso é Overlay, Etapa 4 — nenhum componente desta etapa precisa deles).
+
+## 11. Sobre o mapeamento com o TickTick
+
+O TODO da seção 12 é um espelho exato (mesmo texto, **incluindo o typo já existente no TickTick** — "Calendar navagável", não "navegável") das 27 tarefas do projeto "Etapa 1 - Layout + Element" no TickTick, já reordenadas na sequência correta (8 Layout, depois 16 Element, depois Demo app e os 2 critérios de aceite): 24 tarefas `Componente: <Nome>` (uma por componente, cobrindo os 4 artefatos do contrato + teste unitário passando cada uma, conforme critério 1 da seção 9), mais "Demo app: 1 rota por componente desta etapa" e os dois critérios de aceite finais da seção 9 (itens 6 e 7). Cada tarefa `Componente: X` só deve ser marcada `[x]` quando os 4 arquivos existirem, o teste unitário passar com o mínimo de casos exigido e o `eslint .` estiver limpo — não basta o `.component.js` existir.
+
+## 12. TODO (espelho das tarefas do TickTick — marcar aqui, não no TickTick)
+
+- [ ] Componente: App
+- [ ] Componente: Container
+- [ ] Componente: Error
+- [ ] Componente: Footer
+- [ ] Componente: Header
+- [ ] Componente: Main
+- [ ] Componente: Sidebar
+- [ ] Componente: Theme
+- [ ] Componente: Alert
+- [ ] Componente: Avatar
+- [ ] Componente: AvatarGroup
+- [ ] Componente: Badge
+- [ ] Componente: Banner
+- [ ] Componente: Button
+- [ ] Componente: Calendar
+- [ ] Componente: Card
+- [ ] Componente: Chip
+- [ ] Componente: Collapsible
+- [ ] Componente: FieldGroup
+- [ ] Componente: Icon
+- [ ] Componente: Kbd
+- [ ] Componente: Progress
+- [ ] Componente: Separator
+- [ ] Componente: Skeleton
+- [ ] Demo app: 1 rota por componente desta etapa
+- [ ] [Critério de aceite] Comparação visual com ui.nuxt.com sem divergência perceptível
+- [ ] [Critério de aceite] Calendar navagável por teclado

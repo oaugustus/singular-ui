@@ -1,30 +1,29 @@
-Etapa 0 (Fundação) concluída em 2026-08-06 — as 25 tarefas do TODO de
-specs/spec-etapa-0-fundacao.md estão marcadas "- [x]", verificadas e sincronizadas
-no TickTick.
-
-Não há tarefa pronta para copiar aqui ainda. A Etapa 1 (Layout + Element, 24
-componentes) precisa de uma spec de implementação própria (nos moldes de
-spec-etapa-0-fundacao.md) antes de abrir o primeiro chat de Plan mode no Cursor —
-isso é trabalho desta sessão (Claude/Cowork), não do Cursor. Depois que essa spec
-existir, volte a preencher este template com a primeira tarefa do TODO dela.
-
----
-
 Você vai trabalhar em uma única tarefa do projeto Gravity Elements, definida no arquivo
-specs/spec-etapa-1-*.md deste repositório (ainda não criado).
+specs/spec-etapa-1-layout-element.md deste repositório.
 
-Tarefa (copiar exatamente): ""
+Tarefa (copiar exatamente): "Componente: App"
 
 Antes de propor qualquer plano:
-1. Leia a spec de implementação da Etapa 1 por completo, seção da tarefa em questão.
+1. Leia specs/spec-etapa-1-layout-element.md por completo, especialmente a seção 3
+   (estrutura de pastas), a seção 6 (tabela de bindings do geApp) e a seção 5
+   (contrato de componente / origem dos valores de tema).
 2. Leia specs/gravity-elements-especificacao-tecnica.md, seção 5 (contrato de
-   componente) e demais seções relevantes à tarefa.
+   componente, exemplo button.component.js/button.theme.js — molde de estrutura).
 3. Inspecione o estado atual do repositório — não assuma nada de conversas anteriores.
+   Em especial, confirme que src/components/ ainda não existe (nasce nesta etapa) e
+   que geColorMode (Etapa 0) já está disponível para o geApp consumir no $onInit.
+4. Consulte o Nuxt UI real na versão fixada pela seção 5.1 (**v4.10.0**,
+   github.com/nuxt/ui ou ui.nuxt.com/docs/components/app) para os valores de
+   tema/comportamento exatos do App antes de portar — este documento não embute
+   os valores de classe, só a estrutura esperada.
+5. Confira a seção 5.5 (ARIA mínimo) e a seção 9 (Critérios de aceite) — em
+   especial os itens 1, 2 e 5 (contrato completo + teste + build UMD/Rollup sem
+   regressão) se aplicam a esta tarefa.
 
 Proponha um plano do que vai ser criado (arquivos e pastas) para completar essa
 tarefa. Não implemente nada ainda — aguarde minha aprovação do plano.
 
 Depois de aprovado: implemente, rode qualquer verificação aplicável, e só então
-marque o item como "- [x]" no TODO da spec da etapa, com uma sub-linha de evidência
-do que foi feito. Não altere o texto do item. Não toque em nenhum sistema de gestão
-de tarefas fora deste arquivo.
+marque o item como "- [x]" no TODO (seção 12) deste mesmo arquivo de spec, com uma
+sub-linha de evidência do que foi feito. Não altere o texto do item. Não toque
+em nenhum sistema de gestão de tarefas fora deste arquivo.

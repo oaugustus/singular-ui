@@ -30,9 +30,11 @@ Convenção de código adotada: prefixo `ge-`/`ge` (ex.: `geTv`, `geOverlayStack
 
 - `gravity-elements-especificacao-tecnica.md` — especificação técnica completa (arquitetura, convenções, contrato de componente, `geTv`, camada de interatividade, build/tooling, testes, licenciamento, fora de escopo).
 - `gravity-elements-plano-etapas.md` — plano por etapas (0–6 + 9 no escopo da v1; 7–8 só como referência para v2).
-- `spec-etapa-0-fundacao.md` — spec de implementação da Etapa 0 para o Cursor, com TODO (seção 9) espelhando as tarefas do TickTick. **Fonte de verdade do progresso técnico.**
+- `spec-etapa-0-fundacao.md` — spec de implementação da Etapa 0 para o Cursor, com TODO (seção 9) espelhando as tarefas do TickTick. **Concluída (25/25).**
+- `spec-etapa-1-layout-element.md` — spec de implementação da Etapa 1 (Layout + Element, 24 componentes), escrita em 2026-08-06 nos moldes da Etapa 0. TODO (seção 11) espelha as 27 tarefas do TickTick (24 componentes + demo app + 2 critérios de aceite). Ainda não iniciada — próxima tarefa (`Componente: App`) já preenchida em `plantask.md`.
+- `processo-implementacao.md` — processo operacional (papéis Claude/Cursor/TickTick), válido para todas as etapas.
 
-Etapas 1–6 e 9 ainda não têm spec de implementação detalhada — só a Etapa 0.
+Etapas 2–6 e 9 ainda não têm spec de implementação detalhada.
 
 ## Progresso da Etapa 0 (Fundação) — **CONCLUÍDA**
 
