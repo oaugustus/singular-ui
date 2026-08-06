@@ -1,6 +1,6 @@
 # Gravity Elements — Status atual
 
-> Resumo de contexto para retomar o projeto em uma nova sessão. Última atualização: 2026-08-01.
+> Resumo de contexto para retomar o projeto em uma nova sessão. Última atualização: 2026-08-06.
 
 ## O que é o projeto
 
@@ -23,7 +23,8 @@ Convenção de código adotada: prefixo `ge-`/`ge` (ex.: `geTv`, `geOverlayStack
 - GitHub: `github.com/oaugustus/gravity-elements` (renomeado de `singular-ui`; URL antiga redireciona).
 - Pasta local: `~/Projetos/htdocs/gravity-elements` (renomeada de `singular-ui`).
 - Remote local (`git remote -v`) confirmado limpo, fetch e push ambos em `gravity-elements.git`, sem token embutido.
-- Commit mais recente: `9347c35` — já enviado ao GitHub (push confirmado).
+- Commit mais recente enviado ao GitHub: `69c5647`. Branch local 3 commits à frente de `origin/master` no momento desta revisão (push pendente do lado do usuário).
+- **Há mudanças não commitadas no momento desta revisão** (entrega dos dois smoke tests da Etapa 0 — ver seção seguinte): `demo/index.html`, `test/karma.conf.js`, `specs/spec-etapa-0-fundacao.md`, `plantask.md` modificados; `demo/smoke-tooltip.{html,js}` e `test/smoke/` novos. Revisados e verificados nesta sessão, mas ainda não versionados — recomenda-se commit antes de abrir o próximo chat no Cursor.
 
 ## Documentos de planejamento (`specs/`)
 
@@ -35,7 +36,7 @@ Etapas 1–6 e 9 ainda não têm spec de implementação detalhada — só a Eta
 
 ## Progresso da Etapa 0 (Fundação)
 
-13 de 19 tarefas concluídas e **verificadas de forma independente** (não só por relato):
+19 de 25 tarefas concluídas e **verificadas de forma independente** (não só por relato):
 
 - Estrutura de pastas, `package.json` com dependências de terceiros, ESLint, Karma+Jasmine.
 - Motor de tema `geTv` (implementado e testado; lógica validada manualmente fora do Karma).
@@ -45,11 +46,13 @@ Etapas 1–6 e 9 ainda não têm spec de implementação detalhada — só a Eta
 - `geOverlayStack`, diretivas `ge-floating-position`, `ge-focus-trap`, `ge-hotkey`.
 - Script `generate-tailwind-safelist.js`.
 - App de demo com Vite (hot-reload).
+- `THIRD-PARTY-LICENSES.md` inicial — 7 licenças conferidas uma a uma contra `node_modules/*/package.json` (inclusive o caso não óbvio do Mousetrap, Apache-2.0 WITH LLVM-exception).
+- Corrigir remote do git + primeiro commit/push confirmados.
+- Critério de aceite — smoke test `geBadge` end-to-end (`test/smoke/badge/`): componente mínimo via `geTv`, 2 casos (defaultVariants + override de `color`), revisado linha a linha.
+- Critério de aceite — smoke test Tooltip (`demo/smoke-tooltip.*` + `test/smoke/tooltip/`): integra `ge-floating-position` + `ge-focus-trap` + `ge-hotkey` (ESC), 3 casos (posição calculada, ESC fecha, foco preso), revisado linha a linha.
 
 **Pendente:**
-- `THIRD-PARTY-LICENSES.md`.
-- Critérios de aceite (smoke tests `geBadge` end-to-end, Tooltip validando `ge-floating-position` + `ge-hotkey`).
-- Tailwind CSS (CLI/PostCSS).
+- Tailwind CSS (CLI/PostCSS) — **próxima tarefa da fila**, prompt já pronto em `plantask.md`.
 - Rollup (build UMD → `gravity-elements.js`).
 - Ambiente de desenvolvimento base: `.gitignore` ainda é o antigo (Dart/Flutter, não atualizado), README ainda incompleto (falta descrição completa + aviso de port independente sem afiliação com Nuxt Labs — parcialmente corrigido no rename, mas a tarefa formal de "Ambiente de desenvolvimento base" segue em aberto), `.nvmrc`, pipeline de CI.
 - `geId` (serviço de ids únicos para ARIA) — arquivo ainda vazio.
@@ -57,9 +60,9 @@ Etapas 1–6 e 9 ainda não têm spec de implementação detalhada — só a Eta
 
 ## Qualidade / verificação
 
-- `eslint .` limpo em todo o código.
+- `eslint .` limpo em todo o código, confirmado rodando de novo nesta sessão (instalação nativa do sandbox, à parte do `node_modules` do Mac do usuário, para evitar binários nativos cruzados).
 - Testes unitários existem para todas as peças implementadas.
-- Execução completa do `npm test` (Karma + Chrome Headless) **não pôde ser confirmada** no ambiente de revisão usado nesta sessão (sandbox ARM64 sem Chrome, sem acesso root) — a lógica central do `geTv` foi validada manualmente via script Node à parte, e o restante por revisão de código linha a linha contra a spec. Recomenda-se rodar `npm test` localmente ou via CI (quando existir) para confirmar a suíte completa.
+- Execução completa do `npm test` (Karma + Chrome Headless) **segue sem poder ser confirmada automaticamente** no ambiente Cowork: o sandbox é Linux ARM64 sem root; o Chrome baixado via `puppeteer` para "linux_arm" é na verdade um binário x86-64 (não há build oficial do Chrome para Linux ARM64), e `apt install chromium` falha por falta de permissão de root. Mitigação usada: `eslint` roda nativamente (não depende de binário de browser) e os testes novos (`geBadge`, Tooltip) foram verificados por revisão de código linha a linha contra a spec, como já havia sido feito para o `geTv`. **Recomenda-se rodar `npm test` localmente (Mac do usuário, que tem Chrome) ou via CI (quando existir) para confirmar a suíte completa E2E.**
 
 ## Gestão de tarefas (TickTick)
 

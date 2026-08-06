@@ -280,8 +280,10 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: criados `demo/index.html` + `demo/app.js` (`demoApp` → `gravityElements`); Vite 5.4.21 (`vite.config.js`, script `npm run demo`); README documenta hot-reload via Vite; `npm run demo` → http://localhost:5173/demo/index.html; browser: `demoApp`/`gravityElements`/`gravityElements.core` bootstrapped, injector ok, sem erros; `npm run lint` exit 0. (Vite 5 pinado — Vite 8 exige Node ≥20.19 e falha no Node 20.10 do ambiente.)
 - [x] THIRD-PARTY-LICENSES.md inicial
   - Evidência: criado `THIRD-PARTY-LICENSES.md` na raiz (§5.12) com Nuxt UI/Reka UI (referência MIT), AngularJS 1.8.3, `@floating-ui/dom@1.8.0`, `focus-trap@7.8.0`, `tabbable@6.5.0`, `mousetrap@1.6.5` (Apache-2.0 WITH LLVM-exception), `date-fns@4.4.0`, `tailwind-merge@3.6.0`, e Tailwind CSS previsto v3.x; versões conferidas em `node_modules/*/package.json`.
-- [ ] [Critério de aceite] geBadge end-to-end com teste unitário passando
-- [ ] [Critério de aceite] Tooltip de teste validando ge-floating-position + ge-hotkey
+- [x] [Critério de aceite] geBadge end-to-end com teste unitário passando
+  - Evidência: criados `test/smoke/badge/{smoke.module,badge.theme,badge.component,badge.component.spec}.js` (módulo throwaway `gravityElements.smoke` + `geBadge` mínimo via `geTv`/`geBadgeTheme`); karma.conf carrega os 3 JS do smoke; `karma start test/karma.conf.js --single-run` → 26 of 26 SUCCESS (2 casos geBadge); `npm run lint` exit 0.
+- [x] [Critério de aceite] Tooltip de teste validando ge-floating-position + ge-hotkey
+  - Evidência: criados `demo/smoke-tooltip.html` + `demo/smoke-tooltip.js` (página temporária §6.7 com `ge-floating-position` + `ge-focus-trap` + `ge-hotkey` ESC aninhados) e `test/smoke/tooltip/tooltip.smoke.spec.js` (3 casos); link em `demo/index.html`; `npm test` → 29 of 29 SUCCESS; `npm run lint` exit 0; browser em `/demo/smoke-tooltip.html`: tip com `position:absolute` + top/left sob o âncora, foco preso em “Dentro”, ESC fecha e marca status.
 - [ ] Instalar e configurar Tailwind CSS (CLI/PostCSS)
 - [ ] Configurar bundler Rollup para build UMD (gravity-elements.js)
 - [ ] Ambiente de desenvolvimento base: versão do Node/npm fixada, .gitignore, README inicial, pipeline de CI (Karma em Chrome Headless)
