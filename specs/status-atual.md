@@ -1,6 +1,6 @@
 # Gravity Elements — Status atual
 
-> Resumo de contexto para retomar o projeto em uma nova sessão. Última atualização: 2026-08-06 (Etapa 0 concluída).
+> Resumo de contexto para retomar o projeto em uma nova sessão. Última atualização: 2026-08-06 (Etapa 0 concluída; Etapa 1 em andamento — 2 de 24 componentes).
 
 ## O que é o projeto
 
@@ -23,15 +23,15 @@ Convenção de código adotada: prefixo `ge-`/`ge` (ex.: `geTv`, `geOverlayStack
 - GitHub: `github.com/oaugustus/gravity-elements` (renomeado de `singular-ui`; URL antiga redireciona).
 - Pasta local: `~/Projetos/htdocs/gravity-elements` (renomeada de `singular-ui`).
 - Remote local (`git remote -v`) confirmado limpo, fetch e push ambos em `gravity-elements.git`, sem token embutido.
-- Commit mais recente enviado ao GitHub: `ee2d9dc` (Tailwind CSS). Branch local 4 commits à frente de `origin/master` no momento desta revisão (push pendente do lado do usuário): `fd638d1` (Rollup), `4b1bfb7` (ambiente/CI), `ca80f38` (geId), `2f9412f` (geColorMode).
-- Working tree limpo no momento desta revisão (`git status` sem mudanças pendentes, exceto esta própria atualização do status).
+- Branch local sincronizada com `origin/master` (nenhum commit pendente de push) no momento desta revisão. `geApp` já commitado e enviado (`991a783`).
+- **Há mudanças não commitadas no momento desta revisão**: `geContainer` completo (`src/components/layout/container/`, ainda untracked) + a correção do `window.twMerge` (`src/index.js`, `.eslintrc.cjs`) + artefatos de build regenerados (`dist/`, `tailwind.safelist.json`) + este próprio arquivo de status e a spec da Etapa 1. Recomenda-se commitar antes da próxima tarefa do Cursor.
 
 ## Documentos de planejamento (`specs/`)
 
 - `gravity-elements-especificacao-tecnica.md` — especificação técnica completa (arquitetura, convenções, contrato de componente, `geTv`, camada de interatividade, build/tooling, testes, licenciamento, fora de escopo).
 - `gravity-elements-plano-etapas.md` — plano por etapas (0–6 + 9 no escopo da v1; 7–8 só como referência para v2).
 - `spec-etapa-0-fundacao.md` — spec de implementação da Etapa 0 para o Cursor, com TODO (seção 9) espelhando as tarefas do TickTick. **Concluída (25/25).**
-- `spec-etapa-1-layout-element.md` — spec de implementação da Etapa 1 (Layout + Element, 24 componentes), escrita em 2026-08-06 nos moldes da Etapa 0. TODO (seção 11) espelha as 27 tarefas do TickTick (24 componentes + demo app + 2 critérios de aceite). Ainda não iniciada — próxima tarefa (`Componente: App`) já preenchida em `plantask.md`.
+- `spec-etapa-1-layout-element.md` — spec de implementação da Etapa 1 (Layout + Element, 24 componentes), escrita em 2026-08-06 nos moldes da Etapa 0. TODO (seção 12) espelha as 27 tarefas do TickTick (24 componentes + demo app + 2 critérios de aceite). **Em andamento: 2 de 24 componentes** (`geApp`, `geContainer`). Próxima tarefa (`Componente: Error`) a preencher em `plantask.md`.
 - `processo-implementacao.md` — processo operacional (papéis Claude/Cursor/TickTick), válido para todas as etapas.
 
 Etapas 2–6 e 9 ainda não têm spec de implementação detalhada.
@@ -50,9 +50,19 @@ Entregas completas: estrutura de pastas, `package.json` + dependências de terce
 - **Mitigação usada nesta revisão** — em vez de só ler o código, o bundle UMD final e os serviços `geId`/`geColorMode` foram **executados de verdade** via `jsdom` + AngularJS real (`angular.js`/`angular-aria`/`angular-animate` carregados num DOM simulado, sem depender de Chrome): confirmado que `window.gravityElements` é o módulo Angular real (`name: 'gravityElements'`, `requires: ['gravityElements.core']`), que `geId.next('aria')` gera `aria-1`, `aria-2`, `aria-3` incrementalmente, e que `geColorMode.set('dark')`/`toggle()` aplicam e removem a classe `dark` em `documentElement` corretamente. Os demais serviços/diretivas (`geTv`, `geOverlayStack`, `ge-floating-position`, `ge-focus-trap`, `ge-hotkey`, `geBadge`, Tooltip) foram confirmados por revisão de código linha a linha contra a spec, sem contradição com os resultados de Karma relatados pelo Cursor (contagem de testes cresceu de forma consistente ao longo das entregas: 11→15→18→21→24→26→29→32→37).
 - **Recomenda-se rodar `npm test` localmente (Mac do usuário, que tem Chrome de verdade) ou via CI (já configurado em `.github/workflows/ci.yml`) para confirmar a suíte completa Karma pelo menos uma vez.**
 
+## Progresso da Etapa 1 (Layout + Element) — em andamento
+
+**2 de 24 componentes concluídos e verificados de forma independente**, mais uma correção retroativa no núcleo da Etapa 0:
+
+- **`geApp`** (stub) — sem `theme.js` (exceção documentada: `App` na Nuxt UI v4.10.0 é só provedor de contexto, sem `theme/app.ts`); transclusion + aplica `geColorMode` persistido no `$onInit`. Papel completo de provedor (Toast/overlays) fica para a Etapa 4.
+- **`geContainer`** — primeiro componente com tema real da etapa; validou a safelist do Tailwind (Etapa 0, nunca testada antes contra tema de verdade) capturando corretamente inclusive sintaxe de valor arbitrário (`max-w-[var(--ui-container)]`).
+- **Correção retroativa (fora do fluxo Cursor, feita nesta sessão Claude/Cowork)**: `window.twMerge` nunca era setado no bundle publicado — só no shim de teste do Karma. `geTv` (Etapa 0) degradava silenciosamente para "sem merge" em produção desde a Etapa 0; passou despercebido porque nenhum smoke test tinha classes conflitantes no mesmo slot. Descoberto ao validar `geContainer` (`size="lg"` produzia duas classes `max-w-*` conflitantes, sem quebrar visualmente só por coincidência de ordem no CSS gerado). Corrigido em `src/index.js` (import real de `tailwind-merge` + `window.twMerge`) e `.eslintrc.cjs` (exceção `angular/window-service`, mesmo padrão de `tv.service.js`). Validado via build isolado + execução real em `jsdom`.
+
+Restam 22 componentes (ver TODO da spec, seção 12). Próxima tarefa: `Componente: Error`.
+
 ## Próximo passo
 
-Etapa 0 encerrada. Falta apenas dar `git push` dos 4 commits locais pendentes. A partir daqui, a Etapa 1 (Layout + Element, 24 componentes) ainda não tem spec de implementação detalhada — precisa ser escrita (nos moldes de `spec-etapa-0-fundacao.md`) antes de abrir o primeiro chat no Cursor para essa etapa.
+Dar `git push` do que estiver pendente localmente (checar `git status` — o volume de commits pendentes muda a cada tarefa concluída). Seguir a Etapa 1 componente a componente, um chat de Plan mode no Cursor por vez, com verificação independente (Claude/Cowork) antes de marcar cada um no TickTick.
 
 ## Gestão de tarefas (TickTick)
 

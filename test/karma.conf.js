@@ -31,6 +31,7 @@ module.exports = function (config) {
       'src/components/components.module.js',
       'src/gravity-elements.module.js',
       'src/components/layout/app/**/*.js',
+      'src/components/layout/container/**/*.js',
       'test/fixtures/theme.fixture.js',
       'test/fixtures/class-normalize.js',
       'test/smoke/badge/smoke.module.js',

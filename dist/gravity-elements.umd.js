@@ -665,6 +665,63 @@
 
   (function () {
 
+    // Portado de github.com/nuxt/ui v4.10.0, MIT License, Copyright (c) Nuxt Labs
+    // Upstream: theme/container.ts — base top-level normalizado para slots.base (geTv).
+    // Tailwind v3: max-w-(--ui-container) → max-w-[var(--ui-container)].
+    // variants.size é extensão Gravity (§6); Nuxt UI v4.10.0 Container não tem prop size.
+    angular.module('gravityElements.layout').constant('geContainerTheme', {
+      slots: {
+        base: 'w-full max-w-[var(--ui-container)] mx-auto px-4 sm:px-6 lg:px-8',
+      },
+      variants: {
+        size: {
+          sm: { base: 'max-w-screen-sm' },
+          md: { base: 'max-w-screen-md' },
+          lg: { base: 'max-w-screen-lg' },
+          xl: { base: 'max-w-screen-xl' },
+          '2xl': { base: 'max-w-screen-2xl' },
+        },
+      },
+    });
+  })();
+
+  (function () {
+
+    /**
+     * geContainer — wrapper de centralização/padding (Layout).
+     *
+     * Paridade com Nuxt UI Container v4.10.0 (theme/container.ts). Binding `size`
+     * (`@`, opcional) é extensão Gravity (§6) para largura máxima; omitido usa
+     * `--ui-container`. Transclusion do conteúdo.
+     *
+     * @param {string} [vm.size] - 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+     */
+    angular.module('gravityElements.layout').component('geContainer', {
+      template: '<div class="{{ vm.classes.base }}" ng-transclude></div>',
+      controllerAs: 'vm',
+      transclude: true,
+      bindings: {
+        size: '@',
+      },
+      controller: ContainerController,
+    });
+
+    ContainerController.$inject = ['geTv', 'geContainerTheme'];
+
+    function ContainerController(geTv, geContainerTheme) {
+      var vm = this;
+      vm.$onInit = onInit;
+
+      function onInit() {
+        vm.classes = geTv(geContainerTheme)({
+          size: vm.size,
+        });
+      }
+    }
+  })();
+
+  (function () {
+
     angular.module('gravityElements', [
       'gravityElements.core',
       'gravityElements.components',

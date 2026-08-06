@@ -75,6 +75,12 @@ module.exports = {
         sourceType: 'module',
         ecmaVersion: 2021,
       },
+      rules: {
+        // Roda antes de qualquer angular.bootstrap() do app consumidor — não
+        // há injector disponível ainda para $window; wire de window.twMerge
+        // (mesma exceção de tv.service.js) precisa do global direto.
+        'angular/window-service': 'off',
+      },
     },
   ],
 };

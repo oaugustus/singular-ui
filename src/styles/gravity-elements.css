@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Paridade Nuxt UI v4.10.0 — largura máxima do geContainer */
+:root {
+  --ui-container: 80rem;
+}
