@@ -1,7 +1,7 @@
 Você vai trabalhar em uma única tarefa do projeto Gravity Elements, definida no arquivo
 specs/spec-etapa-0-fundacao.md deste repositório.
 
-Tarefa (copiar exatamente): "Estrutura de pastas do repositório (LIFT + folder-by-feature)"
+Tarefa: ""
 
 Antes de propor qualquer plano:
 1. Leia specs/spec-etapa-0-fundacao.md por completo, especialmente a seção 3
