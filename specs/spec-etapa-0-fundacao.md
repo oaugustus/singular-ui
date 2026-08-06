@@ -292,7 +292,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: criados `.nvmrc` (`20.10.0`) + `engines` em `package.json` (`node`/`npm` `20.10.0`/`10.2.3`); `.gitignore` reescrito (`node_modules`/`dist`/`coverage`); README com seção Instalação; `.github/workflows/ci.yml` (`npm ci` + `npm run lint` + `npm test`, Chrome via `browser-actions/setup-chrome`); `npm run lint` exit 0; `npm test` → 29 of 29 SUCCESS (Chrome Headless).
 - [x] Implementar serviço geId (geração de ids únicos para ARIA)
   - Evidência: implementados `src/core/id/id.service.js` (factory `geId` com `next(prefix)` → `prefix-N`, contador em closure) e `id.service.spec.js` (3 casos); import em `src/index.js`; `npm test` → 32 of 32 SUCCESS; `npm run lint` exit 0; `npm run build:js` → `dist/gravity-elements.umd.js`.
-- [ ] Implementar serviço geColorMode (troca de tema claro/escuro)
+- [x] Implementar serviço geColorMode (troca de tema claro/escuro)
+  - Evidência: implementados `src/core/color-mode/color-mode.service.js` (factory `geColorMode` com `get`/`set`/`toggle`, chave `ge-color-mode`, classe `dark` no `documentElement`, `system` via `matchMedia`) e `color-mode.service.spec.js` (5 casos); import em `src/index.js`; karma carrega `core.module.js` antes dos services; `npm test` → 37 of 37 SUCCESS; `npm run lint` exit 0; `npm run build:js` → `dist/gravity-elements.umd.js`.
 - [x] Corrigir remote do git (remover token embutido na URL) e confirmar autenticação local com o GitHub
   - Evidência: `git remote -v` verificado em 2026-08-01 — fetch e push de `origin` ambos limpos, apontando para `https://github.com/oaugustus/gravity-elements.git` sem credencial embutida.
 - [x] Primeiro commit: estrutura inicial + specs de planejamento em /specs, push para o GitHub
