@@ -25,7 +25,12 @@ module.exports = function (config) {
       'src/core/overlay/**/*.js',
       'src/core/color-mode/**/*.js',
       'src/core/id/**/*.js',
+      // modules de categoria antes dos componentes (glob **/app/** viria antes de layout.module.js)
+      'src/components/layout/layout.module.js',
+      'src/components/element/element.module.js',
+      'src/components/components.module.js',
       'src/gravity-elements.module.js',
+      'src/components/layout/app/**/*.js',
       'test/fixtures/theme.fixture.js',
       'test/fixtures/class-normalize.js',
       'test/smoke/badge/smoke.module.js',

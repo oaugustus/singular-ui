@@ -93,6 +93,8 @@ Todo componente desta etapa tem, no mínimo, os 4 arquivos: `*.component.js`, `*
 
 **Algoritmo do tema**: todo `*.theme.js` é `.constant()` no módulo de categoria (`gravityElements.element` ou `gravityElements.layout`), consumido via `geTv` (já implementado e testado na Etapa 0) — não reimplementar resolução de variantes componente a componente.
 
+**Exceção — componentes sem tema upstream**: nem todo componente do Nuxt UI tem um `theme/<nome>.ts` correspondente. Alguns (confirmado para `App` na v4.10.0 — ver seção 6) são só provedores de contexto/configuração, sem template visual ou classes próprias. Nesses casos, **pular o `*.theme.js`** (não criar um arquivo vazio ou inventar classes) — os outros 3 arquivos do contrato (`*.component.js`, `*.html`, `*.component.spec.js`) continuam obrigatórios. Antes de aplicar essa exceção a qualquer componente, confirmar contra a versão fixada na seção 5.1 (não assumir por semelhança de nome) e registrar a confirmação na evidência do TODO (seção 12), citando o que foi checado.
+
 ### 5.1 Referência de design — versão fixada
 
 **Referência: Nuxt UI `v4.10.0`** (`github.com/nuxt/ui`, tag/release correspondente a essa versão — confirmar tag exata no GitHub antes de começar; era a última versão publicada no npm em 2026-08-06, data desta spec). Portar quase 1:1 os arquivos `theme/<nome>.ts` dessa versão fixa, não da branch `main`/`latest` a esmo — a Etapa 1 pode se estender por várias sessões de Cursor sem prazo definido (prioridade baixa do projeto), e o Nuxt UI pode publicar novas versões nesse meio-tempo; usar sempre a v4.10.0 como base evita inconsistência visual entre componentes portados em momentos diferentes.
@@ -151,7 +153,7 @@ Os demais componentes (a maioria) seguem o padrão já validado na Etapa 0 para 
 
 | Componente | Bindings principais | Notas |
 |---|---|---|
-| `geApp` | — (sem bindings próprios) | Container raiz opcional; no `$onInit`, se `geColorMode` estiver disponível, aplica o modo persistido (`get()`) — dogfooding do serviço da Etapa 0, sem reimplementar nada. |
+| `geApp` | — (sem bindings próprios) | **Sem `geApp.theme.js`** — confirmado que `App` não tem `theme/app.ts` na v4.10.0 (ver seção 5, exceção); é um componente provedor de contexto (Toast/Tooltip/overlays programáticos via Reka UI `ConfigProvider` no original), não visual. Nesta etapa, `geApp` é necessariamente um **stub** desse papel: só container raiz + transclusion, aplicando no `$onInit` o modo persistido de `geColorMode` (`get()`) — dogfooding do serviço da Etapa 0. O papel completo de provedor (Toast/overlays programáticos) só faz sentido a partir da Etapa 4 (Overlay), quando `geOverlayStack` e um futuro `geToast` existirem de verdade — revisar `geApp` nessa etapa, não tratar o resultado desta tarefa como versão final. |
 | `geContainer` | `size` (`@`, opcional, largura máxima) | Wrapper simples de centralização/padding; transclusion. |
 | `geError` | `statusCode` (`@`), `statusMessage` (`@`), `clear` (`<`, boolean — mostra botão), `onClear` (`&`) | Página de erro genérica (404/500), paridade com `Error` do Nuxt UI. |
 | `geFooter` | — | Transclusion simples; slot único. |
@@ -193,7 +195,7 @@ Adotar `ngRoute` (módulo oficial do AngularJS, mesma escolha "oficial primeiro"
 
 ## 9. Critérios de aceite (verificar e relatar todos)
 
-1. Cada um dos 24 componentes: os 4 arquivos do contrato completos (seção 5), teste unitário Karma passando com o mínimo de casos aplicável (seção 5.6 para `geCalendar`/`geCollapsible`/`geAvatarGroup`, 2 casos para os demais), ARIA mínimo aplicado onde exigido (seção 5.5), `eslint .` limpo.
+1. Cada um dos 24 componentes: os arquivos do contrato completos (seção 5 — 4 arquivos, ou 3 nos casos documentados de exceção sem tema upstream, como `geApp`), teste unitário Karma passando com o mínimo de casos aplicável (seção 5.6 para `geCalendar`/`geCollapsible`/`geAvatarGroup`, 2 casos para os demais), ARIA mínimo aplicado onde exigido (seção 5.5), `eslint .` limpo.
 2. `src/index.js` atualizado para importar `components.module.js` e cada `*.component.js`/`*.theme.js` desta etapa; `npm run build:js` (Rollup) continua gerando `dist/gravity-elements.umd.js` sem erro, com os 24 componentes registrados em `gravityElements.components` (verificar via injector, como já feito na Etapa 0 para `geId`/`geColorMode`).
 3. `npm run build:css` (Tailwind) gera `dist/gravity-elements.css` sem erro **e** a safelist (`tailwind.safelist.json`) captura de fato as classes de todos os `*.theme.js` novos — esta é a primeira vez que `generate-tailwind-safelist.js` roda contra temas reais (na Etapa 0 só foi validado com 0 temas). Se algum tema do Nuxt UI usar classe montada dinamicamente (ex. `` `bg-${color}-500` ``), confirmar manualmente que a classe final aparece no CSS gerado; se o script não capturar, ajustar o script ou listar a classe explicitamente no `tailwind.config.js` (`safelist` estático) e registrar a exceção na evidência.
 4. Demo app com as 24 rotas navegáveis (`npm run demo`), sem erro no console do navegador.
@@ -203,7 +205,7 @@ Adotar `ngRoute` (módulo oficial do AngularJS, mesma escolha "oficial primeiro"
 
 ## 10. Fora de escopo desta etapa
 
-Componentes de Form, Data, Navigation, Overlay e Dashboard (Etapas 2–6). Sistema de ícones embutido (só a classe-passthrough da seção 5.4). Variantes de Color Mode por componente (`ColorModeButton`/`Select`/`Switch` — v2, especificação técnica seção 12). Qualquer uso de `ge-floating-position`/`ge-focus-trap`/`ge-hotkey` (isso é Overlay, Etapa 4 — nenhum componente desta etapa precisa deles).
+Componentes de Form, Data, Navigation, Overlay e Dashboard (Etapas 2–6). Sistema de ícones embutido (só a classe-passthrough da seção 5.4). Variantes de Color Mode por componente (`ColorModeButton`/`Select`/`Switch` — v2, especificação técnica seção 12). Qualquer uso de `ge-floating-position`/`ge-focus-trap`/`ge-hotkey` (isso é Overlay, Etapa 4 — nenhum componente desta etapa precisa deles). Papel completo de `geApp` como provedor de Toast/overlays programáticos (equivalente ao `ConfigProvider`/`ToastProvider` do `UApp` original) — nesta etapa `geApp` é só um stub (seção 6); revisar na Etapa 4.
 
 ## 11. Sobre o mapeamento com o TickTick
 
@@ -211,7 +213,8 @@ O TODO da seção 12 é um espelho exato (mesmo texto, **incluindo o typo já ex
 
 ## 12. TODO (espelho das tarefas do TickTick — marcar aqui, não no TickTick)
 
-- [ ] Componente: App
+- [x] Componente: App
+  - Evidência: criados `src/components/` + `layout.module.js` / `element.module.js` (stub) / `components.module.js`; `geApp` com 3 arquivos do contrato (`app.component.js`, `app.html`, `app.component.spec.js`) — **sem** `app.theme.js` (exceção §5/§6); confirmado na tag Nuxt UI `v4.10.0` ausência de `src/theme/app.ts` e `App.vue` só providers (ConfigProvider/Tooltip/Toaster/Overlay). Stub: transclude + `geColorMode.set(get())` no `$onInit`. Wiring em `gravity-elements.module.js`, `src/index.js`, `test/karma.conf.js`. `npm test` → 39 of 39 SUCCESS; `npm run lint` exit 0; `npm run build:js` → UMD com `geApp` em `gravityElements.layout` / `gravityElements.components`.
 - [ ] Componente: Container
 - [ ] Componente: Error
 - [ ] Componente: Footer

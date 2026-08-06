@@ -8,6 +8,10 @@ import './core/overlay/focus-trap.directive.js';
 import './core/overlay/hotkey.directive.js';
 import './core/id/id.service.js';
 import './core/color-mode/color-mode.service.js';
+import './components/layout/layout.module.js';
+import './components/element/element.module.js';
+import './components/components.module.js';
+import './components/layout/app/app.component.js';
 import './gravity-elements.module.js';
 
 export default angular.module('gravityElements');

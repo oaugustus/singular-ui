@@ -1,5 +1,8 @@
 (function () {
   'use strict';
 
-  angular.module('gravityElements', ['gravityElements.core']);
+  angular.module('gravityElements', [
+    'gravityElements.core',
+    'gravityElements.components',
+  ]);
 })();
