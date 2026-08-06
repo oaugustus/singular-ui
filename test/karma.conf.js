@@ -27,7 +27,7 @@ module.exports = function (config) {
       'test/smoke/badge/badge.component.js',
       'test/**/*.spec.js',
     ],
-    exclude: [],
+    exclude: ['src/index.js'],
     reporters: ['progress'],
     port: 9876,
     colors: true,

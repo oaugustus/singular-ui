@@ -29,6 +29,16 @@ npm run build:css
 
 Gera `dist/gravity-elements.css` (entrada em `src/styles/gravity-elements.css`).
 
+## Build JS (UMD)
+
+O bundle JavaScript é gerado com **Rollup** (formato UMD, global `gravityElements`):
+
+```bash
+npm run build:js
+```
+
+Gera `dist/gravity-elements.umd.js` a partir de `src/index.js`. Carregue `angular` (e peers de overlay via `<script>`) antes do UMD.
+
 ## Demo
 
 App AngularJS mínimo em `demo/` (página em branco, dependente de `gravityElements`). Hot-reload via **Vite**:

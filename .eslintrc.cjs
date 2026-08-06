@@ -69,5 +69,12 @@ module.exports = {
         node: true,
       },
     },
+    {
+      files: ['src/index.js'],
+      parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 2021,
+      },
+    },
   ],
 };

@@ -286,7 +286,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: criados `demo/smoke-tooltip.html` + `demo/smoke-tooltip.js` (página temporária §6.7 com `ge-floating-position` + `ge-focus-trap` + `ge-hotkey` ESC aninhados) e `test/smoke/tooltip/tooltip.smoke.spec.js` (3 casos); link em `demo/index.html`; `npm test` → 29 of 29 SUCCESS; `npm run lint` exit 0; browser em `/demo/smoke-tooltip.html`: tip com `position:absolute` + top/left sob o âncora, foco preso em “Dentro”, ESC fecha e marca status.
 - [x] Instalar e configurar Tailwind CSS (CLI/PostCSS)
   - Evidência: instalados `tailwindcss@3.4.19`, `postcss@8.5.26`, `autoprefixer@10.5.4` (devDeps); criados `tailwind.config.js` (`darkMode: 'class'`, `safelist` via `tailwind.safelist.json`), `postcss.config.js`, `src/styles/gravity-elements.css`; script `npm run build:css`; `npm run build:css` → `dist/gravity-elements.css` (5413 bytes); demo linka o CSS; THIRD-PARTY-LICENSES + README atualizados; `npm run lint` exit 0.
-- [ ] Configurar bundler Rollup para build UMD (gravity-elements.js)
+- [x] Configurar bundler Rollup para build UMD (gravity-elements.js)
+  - Evidência: instalados `rollup@^4.62.4`, `@rollup/plugin-node-resolve@^16.0.3`, `@rollup/plugin-commonjs@^29.0.3`; criados `src/index.js` + `rollup.config.js` (UMD, global `gravityElements`, `angular` external); script `npm run build:js`; `rollup -c` → `dist/gravity-elements.umd.js` (13383 bytes); HTML `demo/umd-smoke.html` confirma `window.gravityElements.name === 'gravityElements'`; karma exclui `src/index.js`; `npm test` → 29 of 29 SUCCESS; `npm run lint` exit 0; README documenta o build.
 - [ ] Ambiente de desenvolvimento base: versão do Node/npm fixada, .gitignore, README inicial, pipeline de CI (Karma em Chrome Headless)
 - [ ] Implementar serviço geId (geração de ids únicos para ARIA)
 - [ ] Implementar serviço geColorMode (troca de tema claro/escuro)

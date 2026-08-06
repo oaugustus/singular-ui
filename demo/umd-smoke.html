@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>UMD smoke — gravity-elements</title>
+  </head>
+  <body>
+    <pre id="out">loading…</pre>
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../node_modules/angular-aria/angular-aria.js"></script>
+    <script src="../node_modules/angular-animate/angular-animate.js"></script>
+    <script src="../dist/gravity-elements.umd.js"></script>
+    <script>
+      (function () {
+        var out = document.getElementById('out');
+        var ok =
+          typeof window.gravityElements !== 'undefined' &&
+          window.gravityElements &&
+          typeof window.gravityElements.name === 'string' &&
+          window.gravityElements.name === 'gravityElements';
+        out.textContent = ok
+          ? 'OK window.gravityElements.name=' + window.gravityElements.name
+          : 'FAIL typeof=' + typeof window.gravityElements;
+        window.__umdSmokeOk = ok;
+      })();
+    </script>
+  </body>
+</html>
