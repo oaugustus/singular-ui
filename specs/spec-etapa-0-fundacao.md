@@ -279,7 +279,7 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
 - [x] App de demo vazio com hot-reload
   - Evidência: criados `demo/index.html` + `demo/app.js` (`demoApp` → `gravityElements`); Vite 5.4.21 (`vite.config.js`, script `npm run demo`); README documenta hot-reload via Vite; `npm run demo` → http://localhost:5173/demo/index.html; browser: `demoApp`/`gravityElements`/`gravityElements.core` bootstrapped, injector ok, sem erros; `npm run lint` exit 0. (Vite 5 pinado — Vite 8 exige Node ≥20.19 e falha no Node 20.10 do ambiente.)
 - [ ] THIRD-PARTY-LICENSES.md inicial
-- [ ] [Critério de aceite] suBadge end-to-end com teste unitário passando
+- [ ] [Critério de aceite] geBadge end-to-end com teste unitário passando
 - [ ] [Critério de aceite] Tooltip de teste validando ge-floating-position + ge-hotkey
 - [ ] Instalar e configurar Tailwind CSS (CLI/PostCSS)
 - [ ] Configurar bundler Rollup para build UMD (gravity-elements.js)
@@ -288,4 +288,5 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
 - [ ] Implementar serviço geColorMode (troca de tema claro/escuro)
 - [x] Corrigir remote do git (remover token embutido na URL) e confirmar autenticação local com o GitHub
   - Evidência: `git remote -v` verificado em 2026-08-01 — fetch e push de `origin` ambos limpos, apontando para `https://github.com/oaugustus/gravity-elements.git` sem credencial embutida.
-- [ ] Primeiro commit: estrutura inicial + specs de planejamento em /specs, push para o GitHub
+- [x] Primeiro commit: estrutura inicial + specs de planejamento em /specs, push para o GitHub
+  - Evidência: `git log --oneline` mostra o commit inicial (`1402c6c`) e 16 commits subsequentes de implementação, todos com `specs/` versionado; `git status` em 2026-08-06 mostra branch `master` apenas 1 commit à frente de `origin/master` (o commit mais recente, `d1c7e1f`, ainda não enviado) — a estrutura inicial e o histórico de etapas já estão publicados no GitHub. Sincronizado no TickTick como "Inicializar repositório git local e configurar remote origin" (tarefa `6a6df8bc8f084f9116c2d3be`, concluída em 2026-08-06).
