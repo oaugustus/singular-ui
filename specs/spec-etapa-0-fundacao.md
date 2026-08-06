@@ -278,7 +278,8 @@ O TODO da seção 9 é um espelho exato (mesmo texto) das 25 tarefas do projeto 
   - Evidência: implementado `scripts/generate-tailwind-safelist.js` (varre `src/**/*.theme.js`, extrai classes de slots/variants/compoundVariants.class, escreve `tailwind.safelist.json`); script npm `generate:safelist`; sem themes → `[]` (0 classes); fixture temporário → 10 classes esperadas; fixture removido e regenerado `[]`; `npm run lint` exit 0.
 - [x] App de demo vazio com hot-reload
   - Evidência: criados `demo/index.html` + `demo/app.js` (`demoApp` → `gravityElements`); Vite 5.4.21 (`vite.config.js`, script `npm run demo`); README documenta hot-reload via Vite; `npm run demo` → http://localhost:5173/demo/index.html; browser: `demoApp`/`gravityElements`/`gravityElements.core` bootstrapped, injector ok, sem erros; `npm run lint` exit 0. (Vite 5 pinado — Vite 8 exige Node ≥20.19 e falha no Node 20.10 do ambiente.)
-- [ ] THIRD-PARTY-LICENSES.md inicial
+- [x] THIRD-PARTY-LICENSES.md inicial
+  - Evidência: criado `THIRD-PARTY-LICENSES.md` na raiz (§5.12) com Nuxt UI/Reka UI (referência MIT), AngularJS 1.8.3, `@floating-ui/dom@1.8.0`, `focus-trap@7.8.0`, `tabbable@6.5.0`, `mousetrap@1.6.5` (Apache-2.0 WITH LLVM-exception), `date-fns@4.4.0`, `tailwind-merge@3.6.0`, e Tailwind CSS previsto v3.x; versões conferidas em `node_modules/*/package.json`.
 - [ ] [Critério de aceite] geBadge end-to-end com teste unitário passando
 - [ ] [Critério de aceite] Tooltip de teste validando ge-floating-position + ge-hotkey
 - [ ] Instalar e configurar Tailwind CSS (CLI/PostCSS)
