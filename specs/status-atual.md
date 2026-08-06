@@ -69,7 +69,4 @@ Etapas 1–6 e 9 ainda não têm spec de implementação detalhada — só a Eta
 
 ## Processo de execução (Cursor)
 
-- Um chat de "Plan mode" por tarefa individual do TODO (não por etapa inteira).
-- Prompt de abertura deve incluir: texto exato da tarefa do TODO, referência à seção correspondente da especificação técnica, e instrução para inspecionar o estado atual do repositório (não assumir nada de conversas anteriores).
-- Fluxo: Plan → aprovação do usuário → Build → atualizar o TODO (marcar `[x]` com evidência) só depois de verificar comportamento, não só escrever código.
-- Arquivo `plantask.md` na raiz do repo é o template usado para abrir esses chats (versionado, mas é um scratch/prompt local, não parte da spec formal).
+Detalhado por completo em `specs/processo-implementacao.md`. Resumo: um chat de "Plan mode" no Cursor por tarefa individual do TODO (não por etapa inteira); fluxo Plan → aprovação do Otávio → Build → atualizar o TODO com evidência só depois de verificar comportamento; TickTick é sincronizado exclusivamente por esta sessão (Claude/Cowork), sempre após verificação independente, nunca por relato. Arquivo `plantask.md` na raiz do repo é o template usado para abrir os chats do Cursor.
