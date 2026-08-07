@@ -2,7 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Paridade Nuxt UI v4.10.0 — largura máxima do geContainer */
+/*
+ * Tokens de tema — paridade Nuxt UI v4.10.0 (src/runtime/index.css).
+ * --ui-container: geContainer; demais: geError (e próximos componentes).
+ * Primary default ≈ green-500 do Nuxt UI; neutrals via hex estáveis (sem
+ * depender de --ui-color-neutral-* ainda não portados).
+ */
 :root {
   --ui-container: 80rem;
+  --ui-header-height: 4rem;
+  --ui-primary: #00c16a;
+  --ui-text-highlighted: #171717;
+  --ui-text-muted: #737373;
+  --ui-text-inverted: #ffffff;
+}
+
+.dark {
+  --ui-text-highlighted: #ffffff;
+  --ui-text-muted: #a3a3a3;
+  --ui-text-inverted: #171717;
 }

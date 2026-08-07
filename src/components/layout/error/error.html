@@ -1,0 +1,24 @@
+<main class="{{ vm.classes.root }}">
+  <div ng-if="vm.icon" class="{{ vm.classes.leading }}">
+    <i
+      class="{{ vm.icon }} {{ vm.classes.leadingIcon }}"
+      aria-hidden="true"
+    ></i>
+  </div>
+  <p ng-if="vm.statusCode" class="{{ vm.classes.statusCode }}">
+    {{ vm.statusCode }}
+  </p>
+  <h1 ng-if="vm.statusMessage" class="{{ vm.classes.statusMessage }}">
+    {{ vm.statusMessage }}
+  </h1>
+  <p ng-if="vm.message" class="{{ vm.classes.message }}">{{ vm.message }}</p>
+  <div ng-if="vm.showClear" class="{{ vm.classes.links }}">
+    <button
+      type="button"
+      class="rounded-md font-medium inline-flex items-center transition-colors px-3 py-2 text-sm gap-2 text-[var(--ui-text-inverted)] bg-[var(--ui-primary)] hover:bg-[var(--ui-primary)]/75"
+      ng-click="vm.handleClear()"
+    >
+      Back to home
+    </button>
+  </div>
+</main>
