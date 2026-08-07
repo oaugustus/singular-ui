@@ -4,7 +4,8 @@
 
 /*
  * Tokens de tema — paridade Nuxt UI v4.10.0 (src/runtime/index.css).
- * --ui-container: geContainer; --ui-bg/--ui-border: geHeader; demais: geError
+ * --ui-container: geContainer; --ui-bg/--ui-border: geHeader;
+ * --ui-border-accented / --sidebar-*: geSidebar; demais: geError
  * (e próximos componentes). Primary default ≈ green-500 do Nuxt UI; neutrals
  * via hex estáveis (sem depender de --ui-color-neutral-* ainda não portados).
  */
@@ -14,14 +15,19 @@
   --ui-primary: #00c16a;
   --ui-bg: #ffffff;
   --ui-border: #e5e5e5;
+  --ui-border-accented: #d4d4d4;
   --ui-text-highlighted: #171717;
   --ui-text-muted: #737373;
   --ui-text-inverted: #ffffff;
+  /* geSidebar — defaults espelhados do theme/sidebar.ts v4.10.0 */
+  --sidebar-width: 16rem;
+  --sidebar-width-icon: 4rem;
 }
 
 .dark {
   --ui-bg: #171717;
   --ui-border: #262626;
+  --ui-border-accented: #404040;
   --ui-text-highlighted: #ffffff;
   --ui-text-muted: #a3a3a3;
   --ui-text-inverted: #171717;

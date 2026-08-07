@@ -1,0 +1,43 @@
+<!-- Espelho do template inline em sidebar.component.js (contrato §5). -->
+<aside
+  class="{{ vm.classes.root }}"
+  ng-attr-data-state="{{ vm.isCollapsible ? vm.dataState : undefined }}"
+  ng-attr-data-collapsible="{{ vm.dataCollapsible }}"
+  data-variant="{{ vm.resolvedVariant }}"
+  ng-attr-data-side="{{ vm.isCollapsible ? vm.resolvedSide : undefined }}"
+>
+  <div ng-if="vm.isCollapsible" class="{{ vm.classes.gap }}" data-state="{{ vm.dataState }}"></div>
+  <div
+    class="{{ vm.containerClass }}"
+    ng-attr-data-state="{{ vm.isCollapsible ? vm.dataState : undefined }}"
+  >
+    <div class="{{ vm.classes.inner }}">
+      <div ng-if="vm.hasHeader" class="{{ vm.classes.header }}">
+        <div ng-if="vm.hasHeaderSlot" ng-transclude="header"></div>
+        <div ng-if="!vm.hasHeaderSlot && vm.hasWrapper" class="{{ vm.classes.wrapper }}">
+          <p ng-if="vm.hasTitle" class="{{ vm.classes.title }}">
+            <span ng-if="vm.hasTitleSlot" ng-transclude="title"></span>
+            <span ng-if="!vm.hasTitleSlot">{{ vm.title }}</span>
+          </p>
+          <p ng-if="vm.hasDescription" class="{{ vm.classes.description }}">
+            <span ng-if="vm.hasDescriptionSlot" ng-transclude="description"></span>
+            <span ng-if="!vm.hasDescriptionSlot">{{ vm.description }}</span>
+          </p>
+        </div>
+        <div ng-if="vm.hasActions || vm.showToggle" class="{{ vm.classes.actions }}">
+          <div ng-if="vm.hasActions" ng-transclude="actions"></div>
+          <button
+            type="button"
+            ng-if="vm.showToggle"
+            class="{{ vm.classes.close }} rounded-md font-medium inline-flex items-center justify-center transition-colors size-8 text-sm text-[var(--ui-text-muted)] hover:bg-[var(--ui-border)] hover:text-[var(--ui-text-highlighted)]"
+            aria-label="Alternar barra lateral"
+            aria-expanded="{{ vm.open }}"
+            ng-click="vm.toggle()"
+          >×</button>
+        </div>
+      </div>
+      <div class="{{ vm.classes.body }}" ng-transclude></div>
+      <div ng-if="vm.hasFooter" class="{{ vm.classes.footer }}" ng-transclude="footer"></div>
+    </div>
+  </div>
+</aside>

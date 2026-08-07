@@ -3327,6 +3327,8 @@
 
     function compoundMatches(entry, resolved) {
       var key;
+      var expected;
+      var actual;
       for (key in entry) {
         if (!Object.prototype.hasOwnProperty.call(entry, key)) {
           continue;
@@ -3334,7 +3336,15 @@
         if (key === 'class' || key === 'className') {
           continue;
         }
-        if (resolved[key] !== entry[key]) {
+        expected = entry[key];
+        actual = resolved[key];
+        // Array = OR (tailwind-variants / Nuxt UI theme/*.ts), ex.
+        // collapsible: ['offcanvas', 'icon']
+        if (Array.isArray(expected)) {
+          if (expected.indexOf(actual) === -1) {
+            return false;
+          }
+        } else if (actual !== expected) {
           return false;
         }
       }
@@ -4321,6 +4331,367 @@
 
       function onInit() {
         vm.classes = geTv(geMainTheme)({});
+      }
+    }
+  })();
+
+  (function () {
+
+    // Portado de github.com/nuxt/ui v4.10.0, MIT License, Copyright (c) Nuxt Labs
+    // Upstream: theme/sidebar.ts — 13 slots + variants side/collapsible/variant/transition
+    // + compoundVariants (arrays OR via geTv). Slot rail no tema para safelist/API
+    // futura; não renderizado nesta tarefa (§6). Overlay mobile omitido (Etapa 4).
+    // Tailwind v3: w-(--x) → w-[var(--x)]; divide/border/ring-default →
+    // [var(--ui-border)]; text-highlighted/muted → tokens; --spacing(N) → rem;
+    // rail hover after: --ui-border-accented. Propriedades lógicas (start/end/
+    // border-e/s) mantidas (Tailwind 3.4 do projeto).
+    angular.module('gravityElements.layout').constant('geSidebarTheme', {
+      slots: {
+        root: 'peer [--sidebar-width:16rem] [--sidebar-width-icon:4rem]',
+        gap: 'relative w-[var(--sidebar-width)] bg-transparent',
+        container:
+          'fixed inset-y-0 z-10 hidden h-svh w-[var(--sidebar-width)] lg:flex',
+        inner:
+          'flex size-full flex-col overflow-hidden divide-y divide-[var(--ui-border)]',
+        header:
+          'flex items-center gap-1.5 overflow-hidden px-4 min-h-[var(--ui-header-height)]',
+        wrapper: 'min-w-0 flex-1',
+        title: 'text-[var(--ui-text-highlighted)] font-semibold truncate',
+        description: 'text-[var(--ui-text-muted)] text-sm truncate',
+        actions: 'flex items-center gap-1.5 shrink-0',
+        close: '',
+        body: 'flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-4',
+        footer: 'flex items-center gap-1.5 overflow-hidden p-4',
+        rail:
+          'absolute inset-y-0 z-20 hidden w-4 after:absolute after:inset-y-0 after:left-1/2 after:w-px lg:flex hover:after:bg-[var(--ui-border-accented)] after:transition-colors',
+      },
+      variants: {
+        transition: {
+          true: {
+            gap: 'transition-[width] duration-200 ease-out',
+            container:
+              'transition-[inset-inline-start,inset-inline-end,width] duration-200 ease-out',
+            rail: 'transition-all ease-out',
+          },
+        },
+        side: {
+          left: {
+            container: 'start-0 border-e border-[var(--ui-border)]',
+            rail: 'end-0 translate-x-1/2 rtl:-translate-x-1/2',
+          },
+          right: {
+            container: 'end-0 border-s border-[var(--ui-border)]',
+            rail: '-start-px -translate-x-1/2 rtl:translate-x-1/2',
+          },
+        },
+        collapsible: {
+          offcanvas: {
+            root: 'group/sidebar hidden lg:block',
+            gap: 'data-[state=collapsed]:w-0',
+          },
+          icon: {
+            root: 'group/sidebar hidden lg:block',
+            gap: 'data-[state=collapsed]:w-[var(--sidebar-width-icon)]',
+            container: 'data-[state=collapsed]:w-[var(--sidebar-width-icon)]',
+            actions: 'group-data-[state=collapsed]/sidebar:hidden',
+            body: 'group-data-[state=collapsed]/sidebar:overflow-hidden',
+          },
+          none: {
+            root: 'h-full w-[var(--sidebar-width)]',
+          },
+        },
+        variant: {
+          sidebar: {},
+          floating: {
+            container: 'p-4 border-transparent',
+            inner: 'rounded-lg ring ring-[var(--ui-border)] shadow-lg',
+            rail: 'inset-y-4',
+          },
+          inset: {
+            container: 'py-4 border-transparent',
+            inner: 'divide-transparent',
+            rail: 'inset-y-4',
+          },
+        },
+      },
+      compoundVariants: [
+        {
+          side: 'left',
+          collapsible: ['offcanvas', 'icon'],
+          class: {
+            rail:
+              'cursor-w-resize rtl:cursor-e-resize data-[state=collapsed]:cursor-e-resize data-[state=collapsed]:rtl:cursor-w-resize',
+          },
+        },
+        {
+          side: 'right',
+          collapsible: ['offcanvas', 'icon'],
+          class: {
+            rail:
+              'cursor-e-resize rtl:cursor-w-resize data-[state=collapsed]:cursor-w-resize data-[state=collapsed]:rtl:cursor-e-resize',
+          },
+        },
+        {
+          side: 'left',
+          collapsible: 'none',
+          class: {
+            root: 'border-e border-[var(--ui-border)]',
+          },
+        },
+        {
+          side: 'right',
+          collapsible: 'none',
+          class: {
+            root: 'border-s border-[var(--ui-border)]',
+          },
+        },
+        {
+          side: 'left',
+          collapsible: 'offcanvas',
+          class: {
+            container:
+              'data-[state=collapsed]:-start-[var(--sidebar-width)]',
+          },
+        },
+        {
+          side: 'right',
+          collapsible: 'offcanvas',
+          class: {
+            container: 'data-[state=collapsed]:-end-[var(--sidebar-width)]',
+          },
+        },
+        {
+          variant: 'floating',
+          collapsible: 'icon',
+          class: {
+            gap: 'data-[state=collapsed]:w-[calc(var(--sidebar-width-icon)+2rem)]',
+            container:
+              'data-[state=collapsed]:w-[calc(var(--sidebar-width-icon)+2rem+2px)]',
+          },
+        },
+        {
+          variant: 'floating',
+          collapsible: 'none',
+          class: {
+            root: 'p-4 border-0',
+          },
+        },
+        {
+          variant: 'inset',
+          collapsible: 'none',
+          class: {
+            root: 'py-4 border-0',
+          },
+        },
+        {
+          variant: 'floating',
+          side: 'left',
+          class: {
+            rail: 'end-4',
+          },
+        },
+        {
+          variant: 'floating',
+          side: 'right',
+          class: {
+            rail: 'start-[calc(1rem-1px)]',
+          },
+        },
+      ],
+      defaultVariants: {
+        side: 'left',
+        collapsible: 'none',
+        variant: 'sidebar',
+        transition: true,
+      },
+    });
+  })();
+
+  (function () {
+
+    /**
+     * geSidebar — barra lateral de layout (Layout).
+     *
+     * Paridade desktop com Nuxt UI Sidebar v4.10.0 (theme/sidebar.ts +
+     * Sidebar.vue). Tema completo (13 slots + variants); rail não renderizado
+     * nesta tarefa (aditivo, §6); overlay mobile (Modal/Slideover/Drawer)
+     * adiado para Etapa 4 — mesmo precedente do geHeader.
+     *
+     * collapsible === 'none': aside inline (só inner; wrapper com `contents`).
+     * collapsible offcanvas|icon: gap spacer + container fixed + data-state.
+     *
+     * Toggle: <button> nativo (§5.4.1) até existir geButton — trocar depois.
+     *
+     * Uso:
+     *   <ge-sidebar side="left" collapsible="offcanvas" open="vm.open"
+     *               on-toggle="vm.onToggle(open)" title="Menu">
+     *     <ge-sidebar-header>...</ge-sidebar-header>
+     *     nav default → body
+     *     <ge-sidebar-footer>...</ge-sidebar-footer>
+     *   </ge-sidebar>
+     *
+     * @param {string} [vm.side='left'] - 'left' | 'right'
+     * @param {string} [vm.collapsible='none'] - 'offcanvas' | 'icon' | 'none'
+     * @param {string} [vm.variant='sidebar'] - 'sidebar' | 'floating' | 'inset'
+     * @param {boolean} [vm.open=true] - two-way; expanded quando true
+     * @param {string} [vm.title]
+     * @param {string} [vm.description]
+     * @param {Function} [vm.onToggle] - callback({ open })
+     * @param {Function} [vm.onOpenChange] - callback({ open })
+     */
+    angular.module('gravityElements.layout').component('geSidebar', {
+      template:
+        '<aside class="{{ vm.classes.root }}"' +
+        '  ng-attr-data-state="{{ vm.isCollapsible ? vm.dataState : undefined }}"' +
+        '  ng-attr-data-collapsible="{{ vm.dataCollapsible }}"' +
+        '  data-variant="{{ vm.resolvedVariant }}"' +
+        '  ng-attr-data-side="{{ vm.isCollapsible ? vm.resolvedSide : undefined }}">' +
+        '  <div ng-if="vm.isCollapsible" class="{{ vm.classes.gap }}" data-state="{{ vm.dataState }}"></div>' +
+        // `contents` quando none: wrapper some do box tree (equiv. branch Vue sem container)
+        '  <div class="{{ vm.containerClass }}"' +
+        '    ng-attr-data-state="{{ vm.isCollapsible ? vm.dataState : undefined }}">' +
+        '    <div class="{{ vm.classes.inner }}">' +
+        '      <div ng-if="vm.hasHeader" class="{{ vm.classes.header }}">' +
+        '        <div ng-if="vm.hasHeaderSlot" ng-transclude="header"></div>' +
+        '        <div ng-if="!vm.hasHeaderSlot && vm.hasWrapper" class="{{ vm.classes.wrapper }}">' +
+        '          <p ng-if="vm.hasTitle" class="{{ vm.classes.title }}">' +
+        '            <span ng-if="vm.hasTitleSlot" ng-transclude="title"></span>' +
+        '            <span ng-if="!vm.hasTitleSlot">{{ vm.title }}</span>' +
+        '          </p>' +
+        '          <p ng-if="vm.hasDescription" class="{{ vm.classes.description }}">' +
+        '            <span ng-if="vm.hasDescriptionSlot" ng-transclude="description"></span>' +
+        '            <span ng-if="!vm.hasDescriptionSlot">{{ vm.description }}</span>' +
+        '          </p>' +
+        '        </div>' +
+        '        <div ng-if="vm.hasActions || vm.showToggle" class="{{ vm.classes.actions }}">' +
+        '          <div ng-if="vm.hasActions" ng-transclude="actions"></div>' +
+        // Placeholder §5.4.1 — substituir por <ge-button> após Componente: Button
+        '          <button type="button" ng-if="vm.showToggle"' +
+        '            class="{{ vm.classes.close }} rounded-md font-medium inline-flex items-center justify-center transition-colors size-8 text-sm text-[var(--ui-text-muted)] hover:bg-[var(--ui-border)] hover:text-[var(--ui-text-highlighted)]"' +
+        '            aria-label="Alternar barra lateral"' +
+        '            aria-expanded="{{ vm.open }}"' +
+        '            ng-click="vm.toggle()">×</button>' +
+        '        </div>' +
+        '      </div>' +
+        '      <div class="{{ vm.classes.body }}" ng-transclude></div>' +
+        '      <div ng-if="vm.hasFooter" class="{{ vm.classes.footer }}" ng-transclude="footer"></div>' +
+        '    </div>' +
+        '  </div>' +
+        '</aside>',
+      controllerAs: 'vm',
+      transclude: {
+        header: '?geSidebarHeader',
+        title: '?geSidebarTitle',
+        description: '?geSidebarDescription',
+        actions: '?geSidebarActions',
+        footer: '?geSidebarFooter',
+      },
+      bindings: {
+        side: '@',
+        collapsible: '@',
+        variant: '@',
+        open: '=?',
+        title: '@',
+        description: '@',
+        onToggle: '&',
+        onOpenChange: '&',
+      },
+      controller: SidebarController,
+    });
+
+    SidebarController.$inject = ['geTv', 'geSidebarTheme', '$transclude'];
+
+    function SidebarController(geTv, geSidebarTheme, $transclude) {
+      var vm = this;
+      vm.$onInit = onInit;
+      vm.$onChanges = onChanges;
+      vm.toggle = toggle;
+
+      function onInit() {
+        if (vm.open === undefined) {
+          vm.open = true;
+        }
+        // resolveTheme antes de syncSlots — hasHeader depende de showToggle
+        resolveTheme();
+        syncSlots();
+        syncState();
+      }
+
+      function onChanges(changes) {
+        if (
+          changes.side ||
+          changes.collapsible ||
+          changes.variant ||
+          changes.title ||
+          changes.description
+        ) {
+          resolveTheme();
+          syncSlots();
+          syncState();
+        }
+        // open é `=` — $onChanges não cobre; sync no toggle + $doCheck
+      }
+
+      var prevOpen;
+      vm.$doCheck = function doCheck() {
+        if (vm.open !== prevOpen) {
+          prevOpen = vm.open;
+          syncState();
+        }
+      };
+
+      function resolveTheme() {
+        vm.resolvedSide = vm.side || 'left';
+        vm.resolvedCollapsible = vm.collapsible || 'none';
+        vm.resolvedVariant = vm.variant || 'sidebar';
+        vm.isCollapsible = vm.resolvedCollapsible !== 'none';
+        vm.showToggle = vm.isCollapsible;
+        vm.classes = geTv(geSidebarTheme)({
+          side: vm.resolvedSide,
+          collapsible: vm.resolvedCollapsible,
+          variant: vm.resolvedVariant,
+          transition: true,
+        });
+        vm.containerClass = vm.isCollapsible ? vm.classes.container : 'contents';
+      }
+
+      function syncSlots() {
+        vm.hasHeaderSlot = $transclude.isSlotFilled('header');
+        vm.hasTitleSlot = $transclude.isSlotFilled('title');
+        vm.hasDescriptionSlot = $transclude.isSlotFilled('description');
+        vm.hasActions = $transclude.isSlotFilled('actions');
+        vm.hasFooter = $transclude.isSlotFilled('footer');
+        vm.hasTitle = vm.hasTitleSlot || !!(vm.title && String(vm.title).trim());
+        vm.hasDescription =
+          vm.hasDescriptionSlot ||
+          !!(vm.description && String(vm.description).trim());
+        vm.hasWrapper = vm.hasTitle || vm.hasDescription;
+        vm.hasHeader =
+          vm.hasHeaderSlot ||
+          vm.hasWrapper ||
+          vm.hasActions ||
+          vm.showToggle;
+      }
+
+      function syncState() {
+        vm.dataState = vm.open ? 'expanded' : 'collapsed';
+        // Espelha Sidebar.vue: data-collapsible só quando collapsed + collapsible
+        if (vm.isCollapsible && !vm.open) {
+          vm.dataCollapsible = vm.resolvedCollapsible;
+        } else {
+          vm.dataCollapsible = undefined;
+        }
+      }
+
+      function toggle() {
+        vm.open = !vm.open;
+        syncState();
+        if (typeof vm.onToggle === 'function') {
+          vm.onToggle({ open: vm.open });
+        }
+        if (typeof vm.onOpenChange === 'function') {
+          vm.onOpenChange({ open: vm.open });
+        }
       }
     }
   })();

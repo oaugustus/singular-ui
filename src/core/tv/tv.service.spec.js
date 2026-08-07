@@ -79,4 +79,80 @@ describe('geTv', function () {
       twMerge('truncate font-medium text-xs')
     );
   });
+
+  it('ativa compoundVariants quando a condição é array e o valor está na lista', function () {
+    var arrayTheme = {
+      slots: {
+        rail: 'absolute inset-y-0',
+      },
+      variants: {
+        side: {
+          left: { rail: 'end-0' },
+          right: { rail: 'start-0' },
+        },
+        collapsible: {
+          offcanvas: {},
+          icon: {},
+          none: {},
+        },
+      },
+      compoundVariants: [
+        {
+          side: 'left',
+          collapsible: ['offcanvas', 'icon'],
+          class: {
+            rail: 'cursor-w-resize',
+          },
+        },
+      ],
+      defaultVariants: {
+        side: 'left',
+        collapsible: 'offcanvas',
+      },
+    };
+    var arrayResolve = geTv(arrayTheme);
+
+    expect(arrayResolve({ collapsible: 'offcanvas' }).rail).toContain(
+      'cursor-w-resize'
+    );
+    expect(arrayResolve({ collapsible: 'icon' }).rail).toContain(
+      'cursor-w-resize'
+    );
+  });
+
+  it('não ativa compoundVariants com array quando o valor não está na lista', function () {
+    var arrayTheme = {
+      slots: {
+        rail: 'absolute inset-y-0',
+      },
+      variants: {
+        side: {
+          left: { rail: 'end-0' },
+        },
+        collapsible: {
+          offcanvas: {},
+          icon: {},
+          none: {},
+        },
+      },
+      compoundVariants: [
+        {
+          side: 'left',
+          collapsible: ['offcanvas', 'icon'],
+          class: {
+            rail: 'cursor-w-resize',
+          },
+        },
+      ],
+      defaultVariants: {
+        side: 'left',
+        collapsible: 'none',
+      },
+    };
+    var arrayResolve = geTv(arrayTheme);
+    var classes = arrayResolve({ collapsible: 'none' });
+
+    expect(classes.rail).not.toContain('cursor-w-resize');
+    expect(classes.rail).toBe(twMerge('absolute inset-y-0 end-0'));
+  });
 });

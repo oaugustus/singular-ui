@@ -38,6 +38,8 @@
 
   function compoundMatches(entry, resolved) {
     var key;
+    var expected;
+    var actual;
     for (key in entry) {
       if (!Object.prototype.hasOwnProperty.call(entry, key)) {
         continue;
@@ -45,7 +47,15 @@
       if (key === 'class' || key === 'className') {
         continue;
       }
-      if (resolved[key] !== entry[key]) {
+      expected = entry[key];
+      actual = resolved[key];
+      // Array = OR (tailwind-variants / Nuxt UI theme/*.ts), ex.
+      // collapsible: ['offcanvas', 'icon']
+      if (Array.isArray(expected)) {
+        if (expected.indexOf(actual) === -1) {
+          return false;
+        }
+      } else if (actual !== expected) {
         return false;
       }
     }
