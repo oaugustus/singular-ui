@@ -1,0 +1,22 @@
+<header class="{{ vm.classes.root }}">
+  <div ng-if="vm.hasTop" ng-transclude="top"></div>
+  <ge-container>
+    <div class="{{ vm.classes.container }}">
+      <div class="{{ vm.classes.left }}">
+        <div ng-if="vm.hasLeft" ng-transclude="left"></div>
+        <a
+          ng-if="!vm.hasLeft"
+          href="{{ vm.href }}"
+          class="{{ vm.classes.title }}"
+          aria-label="{{ vm.ariaLabel }}"
+        >
+          <span ng-if="vm.hasTitleSlot" ng-transclude="title"></span>
+          <span ng-if="!vm.hasTitleSlot">{{ vm.title }}</span>
+        </a>
+      </div>
+      <div class="{{ vm.classes.center }}" ng-transclude></div>
+      <div class="{{ vm.classes.right }}" ng-transclude="right"></div>
+    </div>
+  </ge-container>
+  <div ng-if="vm.hasBottom" ng-transclude="bottom"></div>
+</header>
