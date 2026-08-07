@@ -35,6 +35,7 @@ module.exports = function (config) {
       'src/components/layout/error/**/*.js',
       'src/components/layout/footer/**/*.js',
       'src/components/layout/header/**/*.js',
+      'src/components/layout/main/**/*.js',
       'test/fixtures/theme.fixture.js',
       'test/fixtures/class-normalize.js',
       'test/smoke/badge/smoke.module.js',
