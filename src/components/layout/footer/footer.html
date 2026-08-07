@@ -1,0 +1,15 @@
+<footer class="{{ vm.classes.root }}">
+  <div ng-if="vm.hasTop" class="{{ vm.classes.top }}" ng-transclude="top"></div>
+  <ge-container>
+    <div class="{{ vm.classes.container }}">
+      <div class="{{ vm.classes.right }}" ng-transclude="right"></div>
+      <div class="{{ vm.classes.center }}" ng-transclude></div>
+      <div class="{{ vm.classes.left }}" ng-transclude="left"></div>
+    </div>
+  </ge-container>
+  <div
+    ng-if="vm.hasBottom"
+    class="{{ vm.classes.bottom }}"
+    ng-transclude="bottom"
+  ></div>
+</footer>

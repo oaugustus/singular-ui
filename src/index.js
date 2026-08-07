@@ -17,6 +17,8 @@ import './components/layout/container/container.theme.js';
 import './components/layout/container/container.component.js';
 import './components/layout/error/error.theme.js';
 import './components/layout/error/error.component.js';
+import './components/layout/footer/footer.theme.js';
+import './components/layout/footer/footer.component.js';
 import './gravity-elements.module.js';
 
 // geTv (core/tv/tv.service.js) lê window.twMerge em tempo de execução para
